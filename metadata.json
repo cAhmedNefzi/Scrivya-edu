@@ -1,0 +1,6 @@
+{
+  "name": "Scrivya - Assistant Académique AFNOR",
+  "description": "La plateforme intelligente d'accompagnement académique qui prend en charge la complexité des normes AFNOR, de la mise en page universitaire, de la formulation et du plan de votre mémoire.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

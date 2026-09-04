@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Times New Roman", Times, Georgia, serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-brand-50: #f0f7ff;
+  --color-brand-100: #e0f0fe;
+  --color-brand-500: #0284c7;
+  --color-brand-600: #0369a1;
+  --color-brand-700: #075985;
+}
+
+/* Custom background mesh with dynamic moving blurry blobs */
+.mesh-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background-color: #020617;
+  overflow: hidden;
+  transition: background-color 0.5s ease;
+}
+
+/* Base style for slow moving animated blurry blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(75px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Hardware-accelerated sliding fluid movement animations */
+@keyframes float-blob-1 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+  33% { transform: translate(15%, 12%) rotate(120deg) scale(1.15); }
+  66% { transform: translate(-10%, 25%) rotate(240deg) scale(0.85); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(1); }
+}
+
+@keyframes float-blob-2 {
+  0% { transform: translate(0px, 0px) rotate(360deg) scale(1.05); }
+  50% { transform: translate(-15%, -18%) rotate(180deg) scale(0.9); }
+  100% { transform: translate(0px, 0px) rotate(0deg) scale(1.05); }
+}
+
+@keyframes float-blob-3 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.95); }
+  40% { transform: translate(18%, -12%) rotate(140deg) scale(1.2); }
+  80% { transform: translate(-8%, 10%) rotate(280deg) scale(1.05); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.95); }
+}
+
+@keyframes float-blob-4 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-12%, 18%) scale(1.1); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.blob-1 {
+  top: -5%;
+  left: 5%;
+  width: 650px;
+  max-width: 90vw;
+  height: 650px;
+  max-height: 90vw;
+  background-color: rgba(37, 99, 235, 0.45); /* Vivid Royal Blue */
+  animation: float-blob-1 18s infinite ease-in-out;
+}
+
+.blob-2 {
+  bottom: 0%;
+  right: 5%;
+  width: 750px;
+  max-width: 95vw;
+  height: 750px;
+  max-height: 95vw;
+  background-color: rgba(29, 78, 216, 0.40); /* Beautiful Sapphire Blue */
+  animation: float-blob-2 22s infinite ease-in-out;
+}
+
+.blob-3 {
+  top: 35%;
+  left: 25%;
+  width: 600px;
+  max-width: 85vw;
+  height: 600px;
+  max-height: 85vw;
+  background-color: rgba(14, 165, 233, 0.38); /* Bright Sky Blue */
+  animation: float-blob-3 19s infinite ease-in-out;
+}
+
+.blob-4 {
+  bottom: 25%;
+  left: -5%;
+  width: 500px;
+  max-width: 75vw;
+  height: 500px;
+  max-height: 75vw;
+  background-color: rgba(3, 105, 161, 0.40); /* Vivid Deep Sky Blue */
+  animation: float-blob-4 24s infinite ease-in-out;
+}
+
+/* Bright vibrant blue hues customized for light mode */
+.theme-light .blob-1 {
+  background-color: rgba(14, 165, 233, 0.22) !important; /* Rich Sky Blue */
+}
+.theme-light .blob-2 {
+  background-color: rgba(59, 130, 246, 0.20) !important; /* Royal Blue */
+}
+.theme-light .blob-3 {
+  background-color: rgba(6, 182, 212, 0.20) !important; /* Cyan */
+}
+.theme-light .blob-4 {
+  background-color: rgba(37, 99, 235, 0.20) !important; /* Azure Blue */
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Premium blue glass button */
+.btn-glass-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.btn-glass-primary:hover {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Subtle fade in keyframes for React tabs */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+/* Elegant solid color pulse animation instead of gradient */
+@keyframes solidColorPulse {
+  0%, 100% {
+    color: #3b82f6; /* Solid royal blue */
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    color: #60a5fa; /* Solid light blue */
+    text-shadow: 0 0 25px rgba(96, 165, 250, 0.85);
+  }
+}
+
+.animate-solidColorPulse {
+  display: inline-block;
+  animation: solidColorPulse 3.5s infinite ease-in-out;
+}
+
+/* ==========================================
+   Light Mode Theme Overrides
+   ========================================== */
+.theme-light {
+  background-color: transparent;
+  color: #0f172a;
+}
+
+.theme-light .mesh-bg {
+  background-color: #f8fafc;
+}
+
+/* ==========================================
+   Document White Page Default Font Style & Spacing Overrides
+   ========================================== */
+.academic-document-page,
+.academic-document-page *,
+.academic-document-page p,
+.academic-document-page h1,
+.academic-document-page h2,
+.academic-document-page h3,
+.academic-document-page h4,
+.academic-document-page h5,
+.academic-document-page h6,
+.academic-document-page span,
+.academic-document-page div,
+.academic-document-page input,
+.academic-document-page select,
+.academic-document-page textarea,
+.academic-document-page table {
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+
+/* Default 1.5 line spacing (interligne 1.5) and dynamic font sizing for main text in white pages */
+.academic-document-page p,
+.academic-document-page div[contenteditable="true"],
+.academic-document-page p *,
+.academic-document-page div[contenteditable="true"] * {
+  line-height: 1.5 !important;
+}
+
+.academic-document-page p,
+.academic-document-page div[contenteditable="true"] p {
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Force main document text to inherit --document-font-size (16px default / 16px customizable) */
+.academic-document-page div[contenteditable="true"],
+.academic-document-page div[contenteditable="true"] p,
+.academic-document-page div[contenteditable="true"] p *,
+.academic-document-page .flex-1.mt-8 p,
+.academic-document-page .flex-1.mt-8 p * {
+  font-size: var(--document-font-size, 16px) !important;
+}
+
+/* Default single 1.0 line spacing and static 10px font size for footnotes */
+.academic-document-container .academic-footnotes-container,
+.academic-document-page .academic-footnotes-container,
+.academic-document-page .academic-footnotes-container *,
+.academic-document-page .academic-footnotes-container p,
+.academic-document-page .academic-footnotes-container span,
+.academic-document-page .academic-footnotes-container div {
+  font-size: 10px !important;
+  line-height: 1.0 !important;
+}
+
+/* Force footnote numbers never wrap, sit on a new line, or bloat, keeping a perfect compact superscript size with Times New Roman default */
+.footnote-link, .footnote-anchor, [data-footnote-id], [data-id^="fn-id-"] {
+  display: inline !important;
+  white-space: nowrap !important;
+  font-size: 9.5px !important;
+  font-family: "Times New Roman", Times, Georgia, serif !important;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
