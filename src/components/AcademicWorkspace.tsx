@@ -47,12 +47,14 @@ import {
   ZoomOut,
   Compass,
   Presentation,
-  Layers
+  Layers,
+  ShieldCheck
 } from "lucide-react";
 import { initialPages, PageData } from "../defaultPages";
 import AIMentorMap from "./AIMentorMap";
 import PresentationMaker from "./PresentationMaker";
 import PfeHubWorkspace from "./PfeHubWorkspace";
+import AntiPlagiarismSuite from "./AntiPlagiarismSuite";
 
 interface User {
   name: string;
@@ -719,9 +721,20 @@ export default function AcademicWorkspace({
   };
 
   const [activePageId, setActivePageId] = useState<string>("introduction");
+  const [showAntiPlagiarismSuite, setShowAntiPlagiarismSuite] = useState<boolean>(true);
   const [showAIMentor, setShowAIMentor] = useState<boolean>(false);
   const [showPresentationMaker, setShowPresentationMaker] = useState<boolean>(false);
   const [showPfeHub, setShowPfeHub] = useState<boolean>(false);
+
+  const handleInsertTextIntoActivePage = (insertedText: string) => {
+    setPages(prev => prev.map(p => {
+      if (p.id === activePageId || (!activePageId && prev[0]?.id === p.id)) {
+        const formattedParagraph = `<p class="mt-4 mb-2 leading-relaxed font-serif text-[12pt]">${insertedText.replace(/\n\n/g, '</p><p class="mt-4 mb-2 leading-relaxed font-serif text-[12pt]">')}</p>`;
+        return { ...p, content: (p.content || "") + formattedParagraph };
+      }
+      return p;
+    }));
+  };
 
   const [footnoteNumberingMode, setFootnoteNumberingMode] = useState<"continuous" | "restart-each-page" | "alphabetical-lowercased">("continuous");
   const [hoveredFootnote, setHoveredFootnote] = useState<{
@@ -990,7 +1003,7 @@ export default function AcademicWorkspace({
         .filter(Boolean)
     );
 
-    const missingIds = stateAnchorIds.filter(id => !queryIds.has(id));
+    const missingIds = stateAnchorIds.filter(id => !queryIds.has(String(id)));
 
     if (missingIds.length > 0) {
       setFootnotes(prev => {
@@ -1151,7 +1164,7 @@ export default function AcademicWorkspace({
   };
 
   // AI Chat Assistant state
-  const [activeRightPanel, setActiveRightPanel] = useState<"squelette" | "humaniseur" | "afnor" | "chat" | "spellcheck" | "phd_research" | "plans_problematiques" | null>("squelette");
+  const [activeRightPanel, setActiveRightPanel] = useState<"squelette" | "humaniseur" | "afnor" | "chat" | "spellcheck" | "phd_research" | "plans_problematiques" | "formatting" | "options" | null>("squelette");
   const [isLogoMenuOpen, setIsLogoMenuOpen] = useState(false);
   const [documentZoom, setDocumentZoom] = useState(100);
   const [isEditingDocTitle, setIsEditingDocTitle] = useState(false);
@@ -3190,7 +3203,7 @@ export default function AcademicWorkspace({
       if (page.type === "cover") {
         docOut += `RÉPUBLIQUE TUNISIENNE\n`;
         docOut += `${cover.ministere}\n`;
-        docOut += `Etablissement : ${cover.univ_fac || (cover.universite + " / " + cover.faculte)}\n`;
+        docOut += `Etablissement : ${cover.universite + " / " + cover.faculte}\n`;
         docOut += `Dossier : ${cover.mastere} ${cover.mastereRed}\n`;
         docOut += `Thème : ${cover.nomMemoire}\n`;
         docOut += `Rédacteur : ${cover.soutenuPar} | Encadrement : ${cover.sousDirection}\n`;
@@ -3631,151 +3644,149 @@ export default function AcademicWorkspace({
   }
 
   return (
-    <div className={`h-screen flex flex-col overflow-hidden transition-all duration-300 font-sans ${isLight ? 'bg-slate-100 text-slate-800' : 'bg-slate-950 text-slate-100'}`} style={{ direction: 'ltr' }}>
-      
-      {/* GLOWING AMBIENT BACKGROUND DECORATIONS (To accentuate glassmorphism as shown in user pictures) */}
-      <div className="absolute top-10 left-[15%] w-[45rem] h-[45rem] rounded-full bg-blue-300/15 blur-[120px] pointer-events-none select-none z-0" />
-      <div className="absolute bottom-[10%] right-[10%] w-[35rem] h-[35rem] rounded-full bg-indigo-300/15 blur-[130px] pointer-events-none select-none z-0" />
+    <div className="h-screen flex flex-col overflow-hidden font-sans bg-[#f0f6ff] text-[#111118]" style={{ direction: 'ltr' }}>
 
       {/* WORKSPACE AREA */}
       <div className="flex-1 flex overflow-hidden relative z-10">
         
-        {/* REFACTORED FULL-HEIGHT INTEGRATED LEFT SIDEBAR DOCK OF CIRCLED BUTTONS */}
+        {/* SUPERHI LEFT NAVIGATION RAIL */}
         <aside 
-          className="h-[calc(100vh-2rem)] my-4 ml-4 mr-2 py-5 px-3 z-20 shrink-0 w-[76px] rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(31,38,135,0.06)] flex flex-col justify-between items-center select-none border" 
+          className="h-full z-20 shrink-0 w-[64px] flex flex-col justify-between items-center select-none border-r border-[#e1edff] py-3 px-1.5 bg-[#ffffff] text-[#111118] shadow-[2px_0_0_0_#e1edff] transition-colors" 
           id="sidebar_dock_left"
-          style={{
-            background: isLight ? 'rgba(255, 255, 255, 0.45)' : 'rgba(15, 23, 42, 0.45)',
-            borderColor: isLight ? 'rgba(226, 232, 240, 0.8)' : 'rgba(255, 255, 255, 0.08)',
-          }}
         >
-          {/* BRAND/LOGO BUTTON (Top of the Dock) */}
-          <div className="flex flex-col items-center gap-4 w-full shrink-0">
+          {/* BRAND/LOGO BUTTON (SuperHi Round Electric Iris Mark) */}
+          <div className="flex flex-col items-center gap-2 w-full shrink-0">
             <button
               onClick={() => {
                 setIsLogoMenuOpen(!isLogoMenuOpen);
                 setActiveRightPanel(null);
               }}
-              className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-base shadow-md transition-all cursor-pointer relative group ${
+              className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-normal text-xs shadow-[0_2px_0_0_#111118] transition-all cursor-pointer relative group ${
                 isLogoMenuOpen 
-                  ? "bg-gradient-to-tr from-blue-600 to-indigo-600 ring-2 ring-blue-400 scale-105" 
-                  : "bg-blue-600 hover:bg-blue-700 hover:scale-105 active:scale-95"
+                  ? "bg-[#2727e6] ring-2 ring-[#111118]" 
+                  : "bg-[#2727e6] hover:scale-105"
               }`}
               title="Menu Principal"
             >
-              S
+              <BookOpen className="w-4 h-4 text-white" />
               {/* Tooltip */}
-              <span className="absolute left-16 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-md">
-                Menu Principal
+              <span className="absolute left-14 bg-[#111118] text-white text-[11px] font-sans font-normal py-1 px-2.5 rounded-[8px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-[0_2px_0_0_#111118]">
+                Menu Principal Scrivya
               </span>
             </button>
-            <div className="w-8 h-px bg-slate-200/40 dark:bg-white/5" />
+            <div className="w-8 h-px bg-[#e1edff]" />
           </div>
 
           {/* MIDDLE SCROLLABLE DOCK BUTTONS */}
-          <div className="flex-1 overflow-y-auto scrollbar-none flex flex-col items-center gap-3.5 py-4 my-2 w-full">
+          <div className="flex-1 overflow-y-auto scrollbar-none flex flex-col items-center gap-1.5 py-2 my-1 w-full">
             {[
               {
+                id: "anti_plagiarism_suite",
+                icon: <ShieldCheck className="w-4 h-4" />,
+                title: "★ #1 Suite Anti-Plagiat & Humanisation IA (Niv. 1-2-3)",
+                badge: true,
+              },
+              {
                 id: "squelette",
-                icon: <BookOpen className="w-5 h-5 text-blue-500" />,
+                icon: <BookOpen className="w-4 h-4" />,
                 title: "Structure du Document",
-                color: "border-blue-500/35 hover:bg-blue-500/10 hover:border-blue-500/30"
               },
               {
                 id: "afnor",
-                icon: <Bookmark className="w-5 h-5 text-amber-500" />,
+                icon: <Bookmark className="w-4 h-4" />,
                 title: "AFNOR Citations",
-                color: "border-amber-500/35 hover:bg-amber-500/10 hover:border-amber-500/30"
               },
               {
                 id: "humaniseur",
-                icon: <Sparkles className="w-5 h-5 text-violet-500" />,
+                icon: <Sparkles className="w-4 h-4" />,
                 title: "By-passer IA",
-                color: "border-violet-500/35 hover:bg-violet-500/10 hover:border-violet-500/30"
               },
               {
                 id: "chat",
-                icon: <MessageSquare className="w-5 h-5 text-emerald-500" />,
+                icon: <MessageSquare className="w-4 h-4" />,
                 title: "Scrivya Chat",
-                color: "border-emerald-500/35 hover:bg-emerald-500/10 hover:border-emerald-500/30",
                 badge: chatMessages.length > 1
               },
               {
                 id: "spellcheck",
-                icon: <CheckSquare className="w-5 h-5 text-rose-500" />,
+                icon: <CheckSquare className="w-4 h-4" />,
                 title: "Correcteur d'Orthographe",
-                color: "border-rose-500/35 hover:bg-rose-500/10 hover:border-rose-500/30"
               },
               {
                 id: "phd_research",
-                icon: <GraduationCap className="w-5 h-5 text-indigo-500" />,
+                icon: <GraduationCap className="w-4 h-4" />,
                 title: "Sources Ph.D",
-                color: "border-indigo-500/35 hover:bg-indigo-500/10 hover:border-indigo-500/30"
               },
               {
                 id: "plans_problematiques",
-                icon: <Compass className="w-5 h-5 text-amber-500" />,
+                icon: <Compass className="w-4 h-4" />,
                 title: "Plans & Problématiques",
-                color: "border-amber-500/35 hover:bg-amber-500/10 hover:border-amber-500/30"
               },
               {
                 id: "ai_mentor_map",
-                icon: <GraduationCap className="w-5 h-5 text-emerald-500" />,
+                icon: <GraduationCap className="w-4 h-4" />,
                 title: "Mentorat-IA (Orientation)",
-                color: "border-emerald-500/35 hover:bg-emerald-500/10 hover:border-emerald-500/30"
               },
               {
                 id: "presentation_maker",
-                icon: <Presentation className="w-5 h-5 text-fuchsia-500" />,
+                icon: <Presentation className="w-4 h-4" />,
                 title: "Créateur de Présentations",
-                color: "border-fuchsia-500/35 hover:bg-fuchsia-500/10 hover:border-fuchsia-500/30"
               },
               {
                 id: "pfe_hub",
-                icon: <Layers className="w-5 h-5 text-blue-500 animate-pulse" />,
+                icon: <Layers className="w-4 h-4" />,
                 title: "PFE-Hub Tunisie (Startups)",
-                color: "border-blue-500/35 hover:bg-blue-500/10 hover:border-blue-500/30"
               },
               {
                 id: "formatting",
-                icon: <Type className="w-5 h-5 text-cyan-500" />,
+                icon: <Type className="w-4 h-4" />,
                 title: "Mise en Forme",
-                color: "border-cyan-500/35 hover:bg-cyan-500/10 hover:border-cyan-500/30"
               },
               {
                 id: "options",
-                icon: <Settings className="w-5 h-5 text-slate-500 dark:text-slate-400" />,
+                icon: <Settings className="w-4 h-4" />,
                 title: "Options & Exportation",
-                color: "border-slate-500/35 hover:bg-slate-500/10 hover:border-slate-500/30"
               }
             ].map((btn) => {
-              const isActive = btn.id === "ai_mentor_map"
-                ? showAIMentor
-                : btn.id === "presentation_maker"
-                  ? showPresentationMaker
-                  : btn.id === "pfe_hub"
-                    ? showPfeHub
-                    : activeRightPanel === btn.id && !isLogoMenuOpen && !showAIMentor && !showPresentationMaker && !showPfeHub;
+              const isActive = btn.id === "anti_plagiarism_suite"
+                ? showAntiPlagiarismSuite
+                : btn.id === "ai_mentor_map"
+                  ? showAIMentor
+                  : btn.id === "presentation_maker"
+                    ? showPresentationMaker
+                    : btn.id === "pfe_hub"
+                      ? showPfeHub
+                      : activeRightPanel === btn.id && !isLogoMenuOpen && !showAntiPlagiarismSuite && !showAIMentor && !showPresentationMaker && !showPfeHub;
               return (
                 <button
                   key={btn.id}
                   onClick={() => {
-                     if (btn.id === "ai_mentor_map") {
+                     if (btn.id === "anti_plagiarism_suite") {
+                       setShowAntiPlagiarismSuite(!showAntiPlagiarismSuite);
+                       setShowAIMentor(false);
+                       setShowPresentationMaker(false);
+                       setShowPfeHub(false);
+                       setActiveRightPanel(null);
+                     } else if (btn.id === "ai_mentor_map") {
                        setShowAIMentor(!showAIMentor);
+                       setShowAntiPlagiarismSuite(false);
                        setShowPresentationMaker(false);
                        setShowPfeHub(false);
                        setActiveRightPanel(null);
                      } else if (btn.id === "presentation_maker") {
                        setShowPresentationMaker(!showPresentationMaker);
+                       setShowAntiPlagiarismSuite(false);
                        setShowAIMentor(false);
                        setShowPfeHub(false);
                        setActiveRightPanel(null);
                      } else if (btn.id === "pfe_hub") {
                        setShowPfeHub(!showPfeHub);
+                       setShowAntiPlagiarismSuite(false);
                        setShowAIMentor(false);
                        setShowPresentationMaker(false);
                        setActiveRightPanel(null);
                      } else {
+                       setShowAntiPlagiarismSuite(false);
                        setShowAIMentor(false);
                        setShowPresentationMaker(false);
                        setShowPfeHub(false);
@@ -3783,19 +3794,19 @@ export default function AcademicWorkspace({
                      }
                      setIsLogoMenuOpen(false);
                   }}
-                  className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer relative group shrink-0 ${
+                  className={`w-10 h-10 rounded-[12px] flex items-center justify-center transition-all cursor-pointer relative group shrink-0 ${
                     isActive 
-                      ? "bg-slate-900/15 border-blue-500 shadow-inner scale-105 ring-2 ring-blue-500/25" 
-                      : `border-transparent hover:scale-105 active:scale-95 ${btn.color}`
+                      ? "bg-[#2727e6] text-[#ffffff] shadow-[0_2px_0_0_#111118]"
+                      : "text-[#111118]/70 hover:text-[#111118] hover:bg-[#f0f6ff]"
                   }`}
                   title={btn.title}
                 >
                   {btn.icon}
                   {btn.badge && (
-                    <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-950 animate-pulse" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ff4141] rounded-full ring-2 ring-white" />
                   )}
                   {/* Tooltip */}
-                  <span className="absolute left-16 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-md">
+                  <span className="absolute left-14 bg-[#111118] text-white text-[11px] font-sans font-normal py-1 px-2.5 rounded-[8px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-[0_2px_0_0_#111118]">
                     {btn.title}
                   </span>
                 </button>
@@ -3804,63 +3815,50 @@ export default function AcademicWorkspace({
           </div>
 
           {/* BOTTOM DOCK ACTIONS */}
-          <div className="flex flex-col items-center gap-3 w-full pt-1 shrink-0">
-            <div className="w-8 h-px bg-slate-200/40 dark:bg-white/5 mb-1" />
+          <div className="flex flex-col items-center gap-2 w-full pt-1 shrink-0">
+            <div className="w-8 h-px bg-[#e1edff] mb-0.5" />
             
             {/* Theme Toggle */}
             <button 
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")} 
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer relative group border ${
-                isLight 
-                  ? 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-800' 
-                  : 'bg-slate-900 border-white/5 hover:bg-slate-850 text-amber-400'
-              }`}
+              className="w-9 h-9 rounded-[10px] flex items-center justify-center transition-all cursor-pointer relative group text-[#111118]/70 hover:bg-[#f0f6ff] hover:text-[#111118]"
               aria-label="Toggle theme"
             >
               {isLight ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
               {/* Tooltip */}
-              <span className="absolute left-16 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-md">
+              <span className="absolute left-14 bg-[#111118] text-white text-[11px] font-sans font-normal py-1 px-2.5 rounded-[8px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-[0_2px_0_0_#111118]">
                 {isLight ? "Mode Sombre" : "Mode Clair"}
               </span>
             </button>
 
-            {/* Profile Avatar Button */}
+            {/* Profile Avatar Button in SuperHi Circular Avatar style */}
             <div className="flex items-center justify-center relative group">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500/10 to-indigo-650/20 border border-slate-200/40 dark:border-white/5 text-slate-700 dark:text-slate-300 font-bold text-xs shadow-sm flex items-center justify-center relative cursor-pointer hover:scale-105 transition-transform">
-                <div className="w-7 h-7 rounded-full bg-blue-500/25 text-blue-600 flex items-center justify-center text-[10px] font-black shrink-0 uppercase">
-                  {currentUser.name ? currentUser.name[0] : "A"}
-                </div>
-                <span className="absolute w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 bottom-0.5 right-0.5 animate-pulse"></span>
+              <div className="w-8 h-8 rounded-full bg-[#f0f6ff] text-[#2727e6] border border-[#e1edff] font-normal text-xs flex items-center justify-center relative cursor-pointer shadow-[0_2px_0_0_#111118] hover:scale-105 transition-all">
+                {currentUser.name ? currentUser.name[0].toUpperCase() : "A"}
+                <span className="absolute w-2 h-2 rounded-full bg-[#16ab59] border border-white bottom-0 right-0"></span>
               </div>
 
-              {/* Premium hover profile card */}
+              {/* Profile Popup */}
               <div 
-                className="absolute left-16 bottom-0 border p-3 rounded-2xl shadow-2xl z-50 opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-300 min-w-[200px] flex flex-col gap-2 scale-95 origin-left group-hover:scale-100"
-                style={{
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.98)',
-                  backdropFilter: 'blur(20px)',
-                  borderColor: isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.1)',
-                }}
+                className="absolute left-14 bottom-0 p-3.5 rounded-[16px] border border-[#e1edff] bg-[#ffffff] text-[#111118] shadow-[0_4px_0_0_#111118] z-50 opacity-0 pointer-events-none group-hover:opacity-100 transition-all min-w-[200px] flex flex-col gap-2"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-600 font-extrabold text-xs uppercase">
-                    {currentUser.name ? currentUser.name[0] : "A"}
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#2727e6] text-white flex items-center justify-center font-normal text-xs shadow-[0_2px_0_0_#111118]">
+                    {currentUser.name ? currentUser.name[0].toUpperCase() : "A"}
                   </div>
                   <div className="min-w-0">
-                    <div className="font-sans font-bold text-[10.5px] text-slate-900 dark:text-white truncate">
+                    <div className="font-sans font-normal text-xs text-[#111118] truncate">
                       {currentUser.name}
                     </div>
-                    <div className="text-[9px] text-slate-455 dark:text-slate-400 font-mono truncate">
+                    <div className="text-[10px] text-[#111118]/60 truncate">
                       {currentUser.university || "Carthage"}
                     </div>
                   </div>
                 </div>
-                <div className="h-px bg-slate-200/50 dark:bg-white/10 my-0.5"></div>
-                <div className="flex items-center justify-between text-[9px] font-mono">
-                  <span className="text-slate-400">Sync Cloud</span>
-                  <span className="text-emerald-500 font-bold flex items-center gap-1">
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full animate-ping"></span> Actif
-                  </span>
+                <div className="h-px bg-[#e1edff] my-0.5"></div>
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className="text-[#111118]/60">Sync Cloud</span>
+                  <span className="text-[#16ab59] font-normal">● Connecté</span>
                 </div>
               </div>
             </div>
@@ -3868,37 +3866,29 @@ export default function AcademicWorkspace({
             {/* Logout Button */}
             <button 
               onClick={onLogout}
-              className={`w-10 h-10 rounded-full border flex items-center justify-center hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/5 transition-all cursor-pointer relative group ${
-                isLight ? 'bg-slate-50 border-slate-200 text-slate-600' : 'bg-slate-900 border-white/5 text-slate-400'
-              }`}
+              className="w-9 h-9 rounded-[10px] flex items-center justify-center transition-all cursor-pointer relative group text-[#111118]/70 hover:bg-[#ff4141]/10 hover:text-[#ff4141]"
               title="Se déconnecter"
             >
               <LogOut className="w-4 h-4" />
               {/* Tooltip */}
-              <span className="absolute left-16 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-md">
+              <span className="absolute left-14 bg-[#111118] text-white text-[11px] font-sans font-normal py-1 px-2.5 rounded-[8px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-[0_2px_0_0_#111118]">
                 Déconnexion
               </span>
             </button>
           </div>
         </aside>
 
-        {/* DYNAMIC INTEGRATED LEFT SIDEBAR PANEL (As shown in Image 1 and 4) */}
-        {!showAIMentor && !showPresentationMaker && !showPfeHub && ((activeRightPanel !== null) || isLogoMenuOpen) && (
+        {/* DYNAMIC INTEGRATED LEFT SIDEBAR PANEL (SuperHi Paper White Panel) */}
+        {!showAntiPlagiarismSuite && !showAIMentor && !showPresentationMaker && !showPfeHub && ((activeRightPanel !== null) || isLogoMenuOpen) && (
           <aside 
-            className={`w-[360px] border-r flex flex-col h-full overflow-hidden shrink-0 z-40 shadow-[4px_0_24px_rgba(31,38,135,0.03)] backdrop-blur-xl animate-slideRight transition-all duration-300 relative ${
-              isLight 
-                ? 'bg-white/80 border-slate-200/50 text-slate-800' 
-                : 'bg-slate-900/80 border-white/5 text-slate-100'
-            }`} 
+            className="w-[360px] border-r border-[#e1edff] bg-[#ffffff] text-[#111118] flex flex-col h-full overflow-hidden shrink-0 z-40 shadow-[4px_0_0_0_#e1edff] animate-slideRight transition-all relative" 
             style={{ contentVisibility: 'auto' }}
             id="left_tool_sidebar"
           >
             {/* Header section */}
-            <div className={`p-4 border-b flex items-center justify-between select-none shrink-0 ${
-              isLight ? 'bg-slate-50/50 border-slate-200/50' : 'bg-slate-950/20 border-white/5'
-            }`}>
+            <div className="p-4 border-b border-[#e1edff] bg-[#f0f6ff] flex items-center justify-between select-none shrink-0">
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="p-2 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400">
+                <span className="p-2 rounded-[12px] bg-[#e1edff] text-[#2727e6]">
                   {isLogoMenuOpen ? (
                     <Sparkles className="w-5 h-5 animate-pulse" />
                   ) : activeRightPanel === "squelette" ? (
@@ -3924,10 +3914,10 @@ export default function AcademicWorkspace({
                   )}
                 </span>
                 <div className="truncate">
-                  <h4 className="font-sans font-extrabold text-[12.5px] uppercase tracking-wider text-slate-800 dark:text-white truncate">
+                  <h4 className="font-sans font-normal text-[13px] uppercase tracking-wider text-[#111118] truncate">
                     {isLogoMenuOpen ? "Menu des Outils" : activeRightPanel === "squelette" ? "Squelette du Document" : activeRightPanel === "afnor" ? "Notes AFNOR (Citation)" : activeRightPanel === "humaniseur" ? "Humaniseur IA & Presets" : activeRightPanel === "chat" ? "Assistant Scrivya AI" : activeRightPanel === "phd_research" ? "Recherche PhD & Sources" : activeRightPanel === "plans_problematiques" ? "Plans & Problématiques" : activeRightPanel === "spellcheck" ? "Check Split Spelling" : activeRightPanel === "formatting" ? "Mise en Forme" : "Options & Export"}
                   </h4>
-                  <span className="block text-[9.5px] text-slate-455 dark:text-slate-400 font-sans font-medium whitespace-nowrap">
+                  <span className="block text-[10px] text-[#111118]/60 font-sans font-normal whitespace-nowrap">
                     {isLogoMenuOpen ? "Scrivya Académique" : activeRightPanel === "squelette" ? "Structure & Navigation" : activeRightPanel === "afnor" ? "Citation NF Z 44-005" : activeRightPanel === "humaniseur" ? "Contournement détection IA" : activeRightPanel === "chat" ? "Rigueur de rédaction" : activeRightPanel === "phd_research" ? "Moteur de sources de doctorat" : activeRightPanel === "plans_problematiques" ? "Sujets & structures de thèse" : activeRightPanel === "spellcheck" ? "Correction d'orthographe" : activeRightPanel === "formatting" ? "Édition et styles de texte" : "Paramètres et exports"}
                   </span>
                 </div>
@@ -3938,11 +3928,7 @@ export default function AcademicWorkspace({
                   setActiveRightPanel(null);
                   setIsLogoMenuOpen(false);
                 }}
-                className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
-                  isLight 
-                    ? 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-500 hover:text-slate-900' 
-                    : 'bg-slate-950 border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
+                className="p-1.5 rounded-[10px] border border-[#e1edff] bg-[#ffffff] text-[#111118] hover:border-[#2727e6] shadow-[0_1px_0_0_#111118] transition-all cursor-pointer"
                 title="Masquer le panneau"
               >
                 <X className="w-4 h-4" />
@@ -3952,7 +3938,7 @@ export default function AcademicWorkspace({
             {/* Panel views based on active state */}
             {isLogoMenuOpen ? (
               <div className="flex-1 overflow-y-auto p-4 space-y-3 font-sans">
-                <p className="text-[11.5px] text-slate-500 dark:text-slate-400 leading-relaxed font-sans mb-1.5 pl-1 select-none">
+                <p className="text-[12px] text-[#111118]/70 leading-relaxed font-sans mb-1.5 pl-1 select-none">
                   Sélectionnez un outil ci-dessous pour l'ouvrir instantanément sur le côté gauche de votre écran de travail :
                 </p>
                 {[
@@ -3960,42 +3946,42 @@ export default function AcademicWorkspace({
                     key: "squelette",
                     label: "Squelette du Document",
                     subtitle: "Navigateur de pages du manuscrit",
-                    icon: <BookOpen className="w-5 h-5 text-blue-500" />,
+                    icon: <BookOpen className="w-5 h-5 text-[#2727e6]" />,
                     badge: "Structure"
                   },
                   {
                     key: "afnor",
                     label: "Notice Bibliographique AFNOR",
                     subtitle: "Générateur automatique de notes NF",
-                    icon: <Bookmark className="w-5 h-5 text-emerald-500" />,
+                    icon: <Bookmark className="w-5 h-5 text-[#16ab59]" />,
                     badge: "Citations"
                   },
                   {
                     key: "humaniseur",
                     label: "Humaniseur d'IA & Presets",
                     subtitle: "Écritures formelles sans détection robots",
-                    icon: <Sparkles className="w-5 h-5 text-amber-500" />,
+                    icon: <Sparkles className="w-5 h-5 text-[#2727e6]" />,
                     badge: "Authentique"
                   },
                   {
                     key: "chat",
                     label: "Assistant Chat Scrivya",
                     subtitle: "Conseils et standards en temps réel",
-                    icon: <MessageSquare className="w-5 h-5 text-indigo-500" />,
+                    icon: <MessageSquare className="w-5 h-5 text-[#2727e6]" />,
                     badge: "Assistant"
                   },
                   {
                     key: "spellcheck",
                     label: "Check Split Correction",
                     subtitle: "Vérificateur d'orthographe et grammaire",
-                    icon: <CheckSquare className="w-5 h-5 text-rose-500" />,
+                    icon: <CheckSquare className="w-5 h-5 text-[#ff4141]" />,
                     badge: "Rigueur"
                   },
                   {
                     key: "phd_research",
                     label: "Recherche PhD & Sources Blue",
                     subtitle: "Recherche doctorale avec citations bleues",
-                    icon: <GraduationCap className="w-5 h-5 text-indigo-500" />,
+                    icon: <GraduationCap className="w-5 h-5 text-[#2727e6]" />,
                     badge: "PhD"
                   }
                 ].map((m) => (
@@ -4005,27 +3991,21 @@ export default function AcademicWorkspace({
                       setActiveRightPanel(m.key as any);
                       setIsLogoMenuOpen(false);
                     }}
-                    className={`w-full text-left p-3.5 rounded-2xl border transition-all duration-300 flex items-start gap-3 cursor-pointer group hover:scale-[1.01] hover:shadow-md ${
-                      isLight 
-                        ? 'bg-white/50 border-slate-200/50 hover:bg-slate-50 hover:bg-gradient-to-r hover:from-indigo-50/50' 
-                        : 'bg-slate-950/20 border-white/5 hover:bg-slate-950/40 hover:bg-gradient-to-r hover:from-white/[0.02]'
-                    }`}
+                    className="w-full text-left p-3.5 rounded-[16px] border border-[#e1edff] bg-[#ffffff] text-[#111118] shadow-[0_2px_0_0_#111118] hover:border-[#2727e6] hover:-translate-y-0.5 transition-all flex items-start gap-3 cursor-pointer group"
                   >
-                    <span className={`p-2.5 rounded-xl border transition-all shadow-sm ${
-                      isLight ? 'bg-white border-slate-100 group-hover:bg-indigo-50' : 'bg-slate-900 border-white/5 group-hover:bg-white/5'
-                    }`}>
+                    <span className="p-2.5 rounded-[12px] border border-[#e1edff] bg-[#f0f6ff] text-[#2727e6] transition-all">
                       {m.icon}
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-1 mb-0.5">
-                        <span className="block font-sans font-extrabold text-[11.5px] text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
+                        <span className="block font-sans font-normal text-[12px] text-[#111118] group-hover:text-[#2727e6] transition-colors truncate">
                           {m.label}
                         </span>
-                        <span className="text-[8px] font-mono font-bold uppercase py-0.5 px-2 rounded-full border border-slate-200/50 bg-slate-100/50 dark:border-white/5 dark:bg-slate-950/50 text-slate-450 dark:text-slate-400 select-none shrink-0">
+                        <span className="text-[9px] font-normal uppercase py-0.5 px-2 rounded-full border border-[#e1edff] bg-[#f0f6ff] text-[#2727e6] select-none shrink-0">
                           {m.badge}
                         </span>
                       </div>
-                      <span className="block text-[10px] text-slate-455 dark:text-slate-400 leading-normal font-sans font-medium">
+                      <span className="block text-[11px] text-[#111118]/60 leading-normal font-sans">
                         {m.subtitle}
                       </span>
                     </div>
@@ -4069,7 +4049,7 @@ export default function AcademicWorkspace({
                             <span className="text-[8.5px] font-mono font-bold uppercase bg-blue-500/10 text-blue-500 border border-blue-500/20 px-1.5 py-0.5 rounded">
                               Garde
                             </span>
-                          ) : page.type === "toc" ? (
+                          ) : (page.type === "sommaire" || page.type === "sommaire_p") ? (
                             <span className="text-[8.5px] font-mono font-bold uppercase bg-purple-500/10 text-purple-500 border border-purple-500/20 px-1.5 py-0.5 rounded">
                               Sommaire
                             </span>
@@ -4302,7 +4282,7 @@ export default function AcademicWorkspace({
                         Copier
                       </button>
                       <button
-                        onClick={insertReformulationInActive}
+                        onClick={() => insertReformulationInActive(activePageId)}
                         className="flex-1 py-1.5 p-1 text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors cursor-pointer text-center"
                       >
                         Insérer au manuscrit
@@ -4319,14 +4299,14 @@ export default function AcademicWorkspace({
                     <div
                       key={msg.id}
                       className={`flex flex-col max-w-[85%] ${
-                        msg.sender === "user" ? "ml-auto items-end animate-slideInLeft" : "mr-auto items-start animate-slideInRight"
+                        msg.role === "user" ? "ml-auto items-end animate-slideInLeft" : "mr-auto items-start animate-slideInRight"
                       }`}
                     >
                       <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest mb-1 select-none">
-                        {msg.sender === "user" ? currentUser.name : "Scrivya AI"}
+                        {msg.role === "user" ? currentUser.name : "Scrivya AI"}
                       </span>
                       <div className={`p-3 rounded-2xl text-[11.5px] leading-normal font-sans text-justify font-medium border ${
-                        msg.sender === "user"
+                        msg.role === "user"
                           ? "bg-blue-600 text-white border-blue-500/30 rounded-br-none shadow-sm shadow-blue-500/10"
                           : isLight
                             ? "bg-white text-slate-800 border-slate-200/50 rounded-bl-none shadow-sm"
@@ -4578,7 +4558,7 @@ export default function AcademicWorkspace({
                           onClick={() => setPhdShowAllSources(!phdShowAllSources)}
                           className={`w-full py-3 px-4 rounded-xl border font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm ${
                             phdShowAllSources
-                              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-indigo-500 text-white transform hover:scale-[1.01]'
+                              ? 'bg-[#2727e6] border-[#111118] text-white shadow-[0_2px_0_0_#111118]'
                               : isLight
                                 ? 'bg-indigo-50/50 border-indigo-100 text-indigo-700 hover:bg-indigo-50'
                                 : 'bg-indigo-950/20 border-indigo-550/15 text-indigo-400 hover:bg-indigo-950/30'
@@ -5566,7 +5546,17 @@ export default function AcademicWorkspace({
         )}
 
         {/* MAIN PANEL CONTENT */}
-        {showAIMentor ? (
+        {showAntiPlagiarismSuite ? (
+          <AntiPlagiarismSuite 
+            onBackToEditor={() => setShowAntiPlagiarismSuite(false)} 
+            isLight={isLight} 
+            lang={lang}
+            onInsertIntoDocument={(text) => {
+              handleInsertTextIntoActivePage(text);
+              setShowAntiPlagiarismSuite(false);
+            }}
+          />
+        ) : showAIMentor ? (
           <AIMentorMap onBackToEditor={() => setShowAIMentor(false)} isLight={isLight} />
         ) : showPresentationMaker ? (
           <PresentationMaker onBackToEditor={() => setShowPresentationMaker(false)} isLight={isLight} />
@@ -5575,11 +5565,128 @@ export default function AcademicWorkspace({
         ) : (
           <main className="flex-1 flex flex-col overflow-hidden bg-transparent relative">
 
+          {/* SUPERHI DOCUMENT TOOLBAR & HEADER */}
+          <header className="h-14 border-b border-[#e1edff] px-4 flex items-center justify-between shrink-0 select-none z-20 bg-[#ffffff] text-[#111118] shadow-[0_2px_0_0_#111118]">
+            <div className="flex items-center gap-3 min-w-0">
+              {/* Breadcrumbs */}
+              <div className="flex items-center gap-1.5 text-xs text-[#111118]/60 font-sans">
+                <span className="hover:text-[#2727e6] cursor-pointer font-normal">Espace</span>
+                <span>/</span>
+                <span className="hover:text-[#2727e6] cursor-pointer font-normal">Manuscrit</span>
+                <span>/</span>
+              </div>
+              
+              {/* Editable Document Title */}
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#2727e6]" />
+                {isEditingDocTitle ? (
+                  <input
+                    type="text"
+                    value={docTitle}
+                    onChange={(e) => setDocTitle(e.target.value)}
+                    onBlur={() => setIsEditingDocTitle(false)}
+                    onKeyDown={(e) => { if (e.key === "Enter") setIsEditingDocTitle(false); }}
+                    autoFocus
+                    className="text-xs font-normal px-2 py-1 border border-[#2727e6] rounded-[8px] outline-none bg-[#f0f6ff] text-[#111118]"
+                  />
+                ) : (
+                  <span
+                    onDoubleClick={() => setIsEditingDocTitle(true)}
+                    title="Double-cliquer pour renommer"
+                    className="text-xs font-normal font-sans cursor-pointer hover:underline truncate max-w-[240px] text-[#111118]"
+                  >
+                    {docTitle}
+                  </span>
+                )}
+                <span className="px-2 py-0.5 rounded-full bg-[#16ab59] text-white text-[10px] font-normal shadow-[0_1px_0_0_#111118]">
+                  Conforme AFNOR
+                </span>
+              </div>
+            </div>
+
+            {/* Quick Actions in Header */}
+            <div className="flex items-center gap-1.5">
+              {/* Undo / Redo */}
+              <button
+                onClick={handleUndo}
+                disabled={!canUndo}
+                className="p-1.5 rounded-[8px] border border-[#e1edff] bg-[#f0f6ff] text-[#111118] hover:border-[#2727e6] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Annuler (Ctrl+Z)"
+              >
+                <Undo className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={handleRedo}
+                disabled={!canRedo}
+                className="p-1.5 rounded-[8px] border border-[#e1edff] bg-[#f0f6ff] text-[#111118] hover:border-[#2727e6] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Rétablir (Ctrl+Y)"
+              >
+                <Redo className="w-3.5 h-3.5" />
+              </button>
+
+              <div className="w-px h-4 bg-[#e1edff] mx-1"></div>
+
+              {/* Zoom */}
+              <div className="flex items-center gap-1 text-xs">
+                <button
+                  onClick={() => setDocumentZoom(prev => Math.max(30, prev - 10))}
+                  className="p-1.5 rounded-[8px] border border-[#e1edff] bg-[#f0f6ff] text-[#111118] hover:border-[#2727e6] transition-colors cursor-pointer"
+                  title="Zoom arrière"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" />
+                </button>
+                <span className="text-[11px] font-mono font-normal px-1 select-none min-w-[32px] text-center text-[#111118]">
+                  {documentZoom}%
+                </span>
+                <button
+                  onClick={() => setDocumentZoom(prev => Math.min(200, prev + 10))}
+                  className="p-1.5 rounded-[8px] border border-[#e1edff] bg-[#f0f6ff] text-[#111118] hover:border-[#2727e6] transition-colors cursor-pointer"
+                  title="Zoom avant"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div className="w-px h-4 bg-[#e1edff] mx-1"></div>
+
+              {/* Action Buttons styled in SuperHi */}
+              <button
+                onClick={() => {
+                  setShowAntiPlagiarismSuite(true);
+                  setShowAIMentor(false);
+                  setShowPresentationMaker(false);
+                  setShowPfeHub(false);
+                  setActiveRightPanel(null);
+                }}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#e1edff] bg-[#ffffff] text-[#111118] text-xs font-normal shadow-[0_2px_0_0_#111118] hover:border-[#2727e6] hover:-translate-y-0.5 transition-all cursor-pointer"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-[#2727e6]" />
+                <span>Suite Anti-Plagiat IA</span>
+              </button>
+
+              <button
+                onClick={triggerCheckSplit}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#e1edff] bg-[#f0f6ff] text-[#111118] text-xs font-normal shadow-[0_2px_0_0_#111118] hover:border-[#2727e6] transition-all cursor-pointer"
+              >
+                <Sparkles className="w-3 h-3 text-[#2727e6]" />
+                <span>Vérifier</span>
+              </button>
+
+              <button
+                onClick={triggerDownloadDoc}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#2727e6] text-white text-xs font-normal shadow-[0_2px_0_0_#111118] hover:scale-105 transition-all cursor-pointer"
+              >
+                <Download className="w-3 h-3 text-white" />
+                <span>Exporter (.TXT)</span>
+              </button>
+            </div>
+          </header>
+
           {/* WORD PAGE WORKSPACE SPLIT WRAPPER FOR SPELLING LAUNCH */}
           <div className="flex-1 flex overflow-hidden">
 
             {/* MULTI PAGE CONTAINER SCROLLER */}
-            <div className="flex-1 p-6 overflow-auto bg-slate-900/15 flex flex-col items-center" id="editor_page_viewport">
+            <div className="flex-1 p-6 overflow-auto bg-[#f0f6ff] flex flex-col items-center" id="editor_page_viewport">
               
               {/* Scaled Workspace Canvas */}
               <div 
@@ -6716,12 +6823,12 @@ export default function AcademicWorkspace({
                       </>
                     )}
 
-                    <div className={`w-24 h-24 rounded-full flex flex-col items-center justify-center shadow-xl transition-all duration-500 relative bg-gradient-to-tr ${
-                      voiceCallStatus === "connecting" ? "from-indigo-900 to-slate-900 text-slate-400" :
-                      voiceCallStatus === "listening" ? "from-emerald-600 to-emerald-950 text-emerald-100 shadow-emerald-500/20 border-2 border-emerald-400" :
-                      voiceCallStatus === "thinking" ? "from-blue-600 to-violet-950 text-blue-100 animate-pulse border-2 border-indigo-400" :
-                      voiceCallStatus === "speaking" ? "from-indigo-600 to-violet-800 text-indigo-100 shadow-indigo-500/25 border-2 border-indigo-300" :
-                      "from-rose-900 to-slate-900 text-rose-400 border border-rose-500/40"
+                    <div className={`w-24 h-24 rounded-full flex flex-col items-center justify-center shadow-[0_2px_0_0_#111118] transition-all duration-500 relative ${
+                      voiceCallStatus === "connecting" ? "bg-[#f0f6ff] text-[#111118] border border-[#e1edff]" :
+                      voiceCallStatus === "listening" ? "bg-[#2727e6] text-white border-2 border-[#111118]" :
+                      voiceCallStatus === "thinking" ? "bg-[#2727e6] text-white animate-pulse border-2 border-[#111118]" :
+                      voiceCallStatus === "speaking" ? "bg-[#2727e6] text-white border-2 border-[#111118]" :
+                      "bg-[#f0f6ff] text-[#111118] border border-[#e1edff]"
                     }`}>
                       {voiceCallStatus === "connecting" && <Loader2 className="w-8 h-8 animate-spin" />}
                       {voiceCallStatus === "listening" && <Mic className="w-8 h-8 animate-pulse text-emerald-300" />}
@@ -7126,7 +7233,7 @@ export default function AcademicWorkspace({
                 <button
                   key={item.kind}
                   onClick={() => confirmSourceKind(item.kind as any)}
-                  className="w-full p-3 text-left bg-slate-950/40 hover:bg-gradient-to-r hover:from-blue-600/10 hover:to-indigo-500/10 border border-white/10 hover:border-blue-500/20 rounded-xl transition-all flex items-center gap-3 text-xs text-slate-300 hover:text-white cursor-pointer select-none group"
+                  className="w-full p-3 text-left bg-[#ffffff] hover:bg-[#f0f6ff] border border-[#e1edff] hover:border-[#2727e6] rounded-[16px] shadow-[0_1px_0_0_#111118] transition-all flex items-center gap-3 text-xs text-[#111118] cursor-pointer select-none group"
                 >
                   <span className="text-xl group-hover:scale-110 transition-transform">{item.icon}</span>
                   <div>

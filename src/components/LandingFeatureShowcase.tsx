@@ -4,19 +4,18 @@ import {
   Users,
   DollarSign,
   BookOpen,
-  CheckCircle2,
-  Cpu,
   ArrowRight,
-  Sparkles,
   GitBranch,
-  FileText,
-  Award,
-  ShieldCheck,
-  Zap
+  CheckCircle2,
+  Sliders,
+  Zap,
+  School
 } from "lucide-react";
+import { Lozenge } from "./AtlassianComponents";
 
 interface LandingFeatureShowcaseProps {
   lang: "fr" | "en" | "ar";
+  theme?: "dark" | "light";
   onOpenWorkspace: () => void;
 }
 
@@ -45,130 +44,120 @@ export default function LandingFeatureShowcase({
   const [isSynced, setIsSynced] = useState(false);
 
   return (
-    <div className="w-full bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden relative">
-      {/* Top Bar - Architectural Header */}
-      <div className="bg-slate-900 text-white px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800">
-        <div className="flex items-center gap-2.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
-          <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-200">
-            {lang === "ar"
-              ? "معاينة مباشرة: محرك PFE-HUB و STATUT STARTUP ACT"
-              : lang === "en"
-              ? "Live Sandbox: PFE-Hub & Startup Act Engine"
-              : "BAC À SABLE INTERACTIF : PFE-HUB & WORKSPACE ACADÉMIQUE"}
-          </span>
+    <div className="w-full border border-[#e1edff] rounded-[24px] bg-[#ffffff] text-[#111118] overflow-hidden font-sans shadow-[0_4px_0_0_#111118]">
+      
+      {/* Header Bar */}
+      <div className="px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#e1edff] bg-[#f0f6ff]">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-[#2727e6] text-[#ffffff] flex items-center justify-center font-bold text-xs shadow-[0_2px_0_0_#111118]">
+            <BookOpen className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-normal text-xs text-[#111118]">PFE-2026</span>
+              <span className="text-[#111118]/40 text-xs">/</span>
+              <span className="font-normal text-xs text-[#111118]">
+                {lang === "ar"
+                  ? "محاكي معايير PFE-HUB و STATUT STARTUP ACT"
+                  : lang === "en"
+                  ? "PFE-Hub & Startup Act Engine"
+                  : "Bac à sable : PFE-Hub & Workspace"}
+              </span>
+            </div>
+            <p className="text-[12px] text-[#111118]/70 font-normal">
+              {lang === "ar" ? "بيئة اختبار فورية لمعايير التخرج التونسية" : "Simulation en direct des exigences ministérielles"}
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700 text-[11px] font-mono text-slate-300">
-          <span className="text-emerald-400 font-bold">TUNISIA STARTUP ACT</span>
-          <span>•</span>
-          <span>AFNOR Z 44-005</span>
+
+        <div className="flex items-center gap-2">
+          <Lozenge appearance="success">STARTUP ACT TUNISIE</Lozenge>
+          <Lozenge appearance="inprogress">AFNOR Z 44-005</Lozenge>
         </div>
       </div>
 
-      {/* Feature Navigation Tabs */}
-      <div className="flex flex-wrap border-b border-slate-200 bg-slate-50/80">
-        <button
-          onClick={() => setActiveTab("cogs")}
-          className={`flex-1 min-w-[160px] py-3.5 px-4 text-xs font-bold font-sans flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
-            activeTab === "cogs"
-              ? "border-blue-600 text-blue-600 bg-white"
-              : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
-          }`}
-        >
-          <DollarSign className="w-4 h-4" />
-          <span>
-            {lang === "ar"
-              ? "مؤشر COGS < 30%"
-              : lang === "en"
-              ? "COGS Ratio < 30%"
-              : "Moteur COGS < 30%"}
-          </span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("matchmaking")}
-          className={`flex-1 min-w-[160px] py-3.5 px-4 text-xs font-bold font-sans flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
-            activeTab === "matchmaking"
-              ? "border-blue-600 text-blue-600 bg-white"
-              : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>
-            {lang === "ar"
-              ? "التوافق الجامعي"
-              : lang === "en"
-              ? "Cofounder Matchmaking"
-              : "Matchmaking INSAT • IHEC"}
-          </span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("figma")}
-          className={`flex-1 min-w-[160px] py-3.5 px-4 text-xs font-bold font-sans flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
-            activeTab === "figma"
-              ? "border-blue-600 text-blue-600 bg-white"
-              : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          <span>
-            {lang === "ar"
-              ? "مزامنة Figma ↔ GitHub"
-              : lang === "en"
-              ? "Figma ↔ GitHub Webhooks"
-              : "Figma ↔ GitHub Sync"}
-          </span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("afnor")}
-          className={`flex-1 min-w-[160px] py-3.5 px-4 text-xs font-bold font-sans flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
-            activeTab === "afnor"
-              ? "border-blue-600 text-blue-600 bg-white"
-              : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
-          }`}
-        >
-          <BookOpen className="w-4 h-4" />
-          <span>
-            {lang === "ar"
-              ? "معايير AFNOR Z 44-005"
-              : lang === "en"
-              ? "AFNOR Z 44-005 Citations"
-              : "Normes AFNOR Z 44-005"}
-          </span>
-        </button>
+      {/* Tab Navigation (Haas Grot Text, 400 weight, #2727e6 active indicator) */}
+      <div className="flex items-center border-b border-[#e1edff] px-4 overflow-x-auto scrollbar-none bg-[#ffffff]">
+        {[
+          {
+            id: "cogs" as const,
+            icon: <DollarSign className="w-4 h-4" />,
+            label: lang === "ar" ? "مؤشر COGS < 30%" : lang === "en" ? "COGS Ratio < 30%" : "Moteur COGS < 30%",
+            badge: "<30%"
+          },
+          {
+            id: "matchmaking" as const,
+            icon: <Users className="w-4 h-4" />,
+            label: lang === "ar" ? "التوافق الجامعي" : lang === "en" ? "Cofounder Matchmaking" : "Matchmaking INSAT • IHEC",
+            badge: "3 Écoles"
+          },
+          {
+            id: "figma" as const,
+            icon: <Layers className="w-4 h-4" />,
+            label: lang === "ar" ? "مزامنة Figma ↔ GitHub" : lang === "en" ? "Figma ↔ GitHub Webhooks" : "Figma ↔ GitHub Sync",
+            badge: "Webhook"
+          },
+          {
+            id: "afnor" as const,
+            icon: <BookOpen className="w-4 h-4" />,
+            label: lang === "ar" ? "معايير AFNOR Z 44-005" : lang === "en" ? "AFNOR Z 44-005 Citations" : "Normes AFNOR Z 44-005",
+            badge: "Ibid./Op.Cit."
+          }
+        ].map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`py-3.5 px-4 text-xs font-normal flex items-center gap-2 border-b-2 transition-all cursor-pointer whitespace-nowrap -mb-[1px] ${
+                isActive
+                  ? "border-[#2727e6] text-[#2727e6] bg-[#f0f6ff]/60"
+                  : "border-transparent text-[#111118]/70 hover:text-[#111118] hover:border-[#e1edff]"
+              }`}
+            >
+              <span className={isActive ? "text-[#2727e6]" : "text-[#111118]/50"}>{tab.icon}</span>
+              <span>{tab.label}</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-normal ${
+                isActive
+                  ? "bg-[#2727e6] text-[#ffffff]"
+                  : "bg-[#e1edff] text-[#111118]"
+              }`}>
+                {tab.badge}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Tab Content Display */}
-      <div className="p-6 md:p-8 bg-white">
+      {/* Tab Content */}
+      <div className="p-6 md:p-8 bg-[#ffffff]">
         {activeTab === "cogs" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-7 space-y-6">
               <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-mono font-bold mb-3 border border-blue-200">
-                  <Sparkles className="w-3.5 h-3.5" /> Modélisation Financière PFE-Startup
-                </span>
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+                <div className="mb-2">
+                  <Lozenge appearance="inprogress">MODÉLISATION FINANCIÈRE</Lozenge>
+                </div>
+                <h3 className="text-2xl font-normal text-[#111118] tracking-tight">
                   {lang === "ar"
                     ? "ضمان ألا تتجاوز تكاليف الخوادم 30% من إيرادات مشروعك"
                     : lang === "en"
                     ? "Ensure Server COGS Remain Under 30% of Projected Revenue"
                     : "Simulateur de conformité COGS < 30% (Startup Act Tunisie)"}
                 </h3>
-                <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+                <p className="text-sm mt-2 text-[#111118]/70 leading-relaxed font-normal">
                   {lang === "ar"
-                    ? "تحسب المنصة تلقائياً تكلفة استدعاءات الذكاء الاصطناعي وخوادم AWS ومقارنتها بالإيرادات لاجتياز لجنة تدقيق Startup Act بنجاح."
+                    ? "تحسب المنصة تلقائياً تكلفة استدعاءات وخوادم AWS ومقارنتها بالإيرادات لاجتياز لجنة تدقيق Startup Act بنجاح."
                     : lang === "en"
-                    ? "Automatically projects AWS, Gemini LLM, and Postgres costs against client revenues to satisfy Tunisia Startup Act auditing committees."
-                    : "Calculez en direct le ratio de vos coûts serveurs (AWS, Gemini LLM, Postgres) face à vos revenus SaaS prévisionnels pour valider votre éligibilité d'État."}
+                    ? "Automatically projects AWS and cloud infrastructure costs against client revenues to satisfy Tunisia Startup Act auditing committees."
+                    : "Calculez en direct le ratio de vos coûts serveurs (AWS, bases de données cloud) face à vos revenus SaaS prévisionnels pour valider votre éligibilité d'État."}
                 </p>
               </div>
 
-              {/* Sliders */}
-              <div className="space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+              {/* Slider Panel */}
+              <div className="space-y-5 p-5 rounded-[16px] bg-[#f0f6ff] border border-[#e1edff]">
                 <div>
-                  <div className="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+                  <div className="flex justify-between text-xs font-normal text-[#111118] mb-2">
                     <span>
                       {lang === "ar"
                         ? "استدعاءات API شهرياً"
@@ -176,7 +165,7 @@ export default function LandingFeatureShowcase({
                         ? "Monthly API Calls"
                         : "Appels API mensuels"}
                     </span>
-                    <span className="font-mono text-blue-600">{apiCalls.toLocaleString()} reqs</span>
+                    <span className="font-mono text-[#2727e6] font-normal">{apiCalls.toLocaleString()} reqs</span>
                   </div>
                   <input
                     type="range"
@@ -185,12 +174,12 @@ export default function LandingFeatureShowcase({
                     step="5000"
                     value={apiCalls}
                     onChange={(e) => setApiCalls(Number(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                    className="w-full h-1.5 bg-[#e1edff] rounded-full appearance-none cursor-pointer accent-[#2727e6]"
                   />
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+                  <div className="flex justify-between text-xs font-normal text-[#111118] mb-2">
                     <span>
                       {lang === "ar"
                         ? "عدد العملاء المشتركين"
@@ -198,7 +187,7 @@ export default function LandingFeatureShowcase({
                         ? "Active Subscribed Clients"
                         : "Clients actifs SaaS"}
                     </span>
-                    <span className="font-mono text-blue-600">{clients} clients</span>
+                    <span className="font-mono text-[#2727e6] font-normal">{clients} clients</span>
                   </div>
                   <input
                     type="range"
@@ -207,12 +196,12 @@ export default function LandingFeatureShowcase({
                     step="5"
                     value={clients}
                     onChange={(e) => setClients(Number(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                    className="w-full h-1.5 bg-[#e1edff] rounded-full appearance-none cursor-pointer accent-[#2727e6]"
                   />
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+                  <div className="flex justify-between text-xs font-normal text-[#111118] mb-2">
                     <span>
                       {lang === "ar"
                         ? "سعر الاشتراك الشهري (TND)"
@@ -220,7 +209,7 @@ export default function LandingFeatureShowcase({
                         ? "Monthly SaaS Price (TND)"
                         : "Abonnement mensuel par client (TND)"}
                     </span>
-                    <span className="font-mono text-blue-600">{saasPrice} TND</span>
+                    <span className="font-mono text-[#2727e6] font-normal">{saasPrice} TND</span>
                   </div>
                   <input
                     type="range"
@@ -229,237 +218,197 @@ export default function LandingFeatureShowcase({
                     step="10"
                     value={saasPrice}
                     onChange={(e) => setSaasPrice(Number(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                    className="w-full h-1.5 bg-[#e1edff] rounded-full appearance-none cursor-pointer accent-[#2727e6]"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Live Result Card */}
-            <div className="lg:col-span-5 bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <span className="text-xs font-mono uppercase text-slate-400">
+            {/* Live Result Card (SuperHi Card with Hard Shadow) */}
+            <div className="lg:col-span-5 bg-[#ffffff] p-6 rounded-[24px] border border-[#e1edff] shadow-[0_2px_0_0_#111118] space-y-6">
+              <div className="flex items-center justify-between border-b border-[#e1edff] pb-3">
+                <span className="text-xs font-mono text-[#111118]/70 uppercase tracking-wider">
                   {lang === "ar" ? "نتيجة التدقيق الفوري" : lang === "en" ? "Real-Time Audit Ratio" : "RATIO DE CONFORMITÉ"}
                 </span>
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 ${
-                    isCompliant
-                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                      : "bg-rose-500/20 text-rose-400 border border-rose-500/30"
-                  }`}
-                >
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      isCompliant ? "bg-emerald-400 animate-ping" : "bg-rose-400"
-                    }`}
-                  ></span>
-                  {isCompliant
-                    ? lang === "ar"
-                      ? "مؤهل لـ STARTUP ACT"
-                      : "STARTUP ACT COMPLIANT"
-                    : lang === "ar"
-                    ? "يتطلب تحسين الأسعار"
-                    : "REQUIRES COGS OPTIMIZATION"}
-                </span>
+                <Lozenge appearance={isCompliant ? "success" : "danger"}>
+                  {isCompliant ? "STARTUP ACT CONFORME" : "NON CONFORME (> 30%)"}
+                </Lozenge>
               </div>
 
-              <div className="text-center py-4">
-                <div className="text-4xl md:text-5xl font-mono font-bold text-white">
+              <div className="text-center py-4 bg-[#f0f6ff] rounded-[16px] border border-[#e1edff]">
+                <div className={`text-5xl font-normal font-mono ${isCompliant ? "text-[#16ab59]" : "text-[#ff4141]"}`}>
                   {cogsRatio}%
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-[12px] text-[#111118]/70 mt-2 font-normal">
                   {lang === "ar"
                     ? "نسبة تكلفة البنية التحتية من الإيرادات"
                     : lang === "en"
                     ? "Infrastructure Cost to Revenue Ratio"
-                    : "Part de l'infrastructure sur le chiffre d'affaires"}
+                    : "Part de l'infrastructure sur le CA"}
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs border-t border-slate-800 pt-4 font-mono text-slate-300">
-                <div className="flex justify-between">
-                  <span>Coût Serveurs (AWS/LLM):</span>
-                  <span className="text-slate-100 font-bold">{infrastructureCost.toFixed(2)} TND</span>
+              <div className="space-y-2 text-xs border-t border-[#e1edff] pt-4 text-[#111118]/70">
+                <div className="flex justify-between items-center">
+                  <span>Coût Serveurs (AWS / DB) :</span>
+                  <span className="text-[#111118] font-mono font-normal">{infrastructureCost.toFixed(2)} TND</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Revenus Prévisionnels:</span>
-                  <span className="text-slate-100 font-bold">{monthlyRevenue.toLocaleString()} TND</span>
+                <div className="flex justify-between items-center">
+                  <span>Revenus Prévisionnels :</span>
+                  <span className="text-[#111118] font-mono font-normal">{monthlyRevenue.toLocaleString()} TND</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Seuil Légal Tunisie:</span>
-                  <span className="text-emerald-400 font-bold">&lt; 30.0%</span>
+                <div className="flex justify-between items-center">
+                  <span>Seuil Légal Ministère Tunisie :</span>
+                  <span className="text-[#16ab59] font-normal">&lt; 30.0%</span>
                 </div>
               </div>
 
               <button
                 onClick={onOpenWorkspace}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="superhi-btn-primary w-full cursor-pointer text-xs"
               >
-                <span>
-                  {lang === "ar"
-                    ? "إعداد ملف Labellisation في Workspace"
-                    : lang === "en"
-                    ? "Build Official Label Dossier"
-                    : "Générer mon dossier de labellisation"}
-                </span>
-                <ArrowRight className="w-4 h-4" />
+                <span>{lang === "ar" ? "إعداد ملف Labellisation في Workspace" : "Générer le dossier d'éligibilité"}</span>
+                <span className="text-base font-normal">→</span>
               </button>
             </div>
           </div>
         )}
 
         {activeTab === "matchmaking" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-6 space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-mono font-bold border border-indigo-200">
-                <Users className="w-3.5 h-3.5" /> Smart Matchmaking Inter-Universitaire
-              </span>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+              <Lozenge appearance="inprogress">MATCHMAKING CARTHAGE</Lozenge>
+              <h3 className="text-2xl font-normal text-[#111118] tracking-tight">
                 {lang === "ar"
                   ? "تكوين فرق متعددة التخصصات بين INSAT و Esprit و IHEC"
                   : lang === "en"
                   ? "Form Multidisciplinary PFE Teams Across INSAT, Esprit & IHEC"
                   : "Alliez génie technique, design UI/UX et stratégie business pour votre PFE"}
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-[#111118]/70 leading-relaxed font-normal">
                 {lang === "ar"
-                  ? "تحلل خوارزمية Carthage التوافق الزمني لمواعيد مناقشة التخرج (جوان لـ INSAT وماي لـ IHEC) وترشح الشركاء المثاليين لإطلاق شركتكم الناشئة."
+                  ? "تحلل خوارزمية Carthage التوافق الزمني لمواعيد مناقشة التخرج وترشح الشركاء المثاليين لإطلاق شركتكم الناشئة."
                   : lang === "en"
-                  ? "Our Carthage algorithm syncs academic defense schedules (INSAT in June, IHEC in May) and matches you with high-impact student cofounders."
-                  : "L'algorithme de Carthage synchronise les plannings de soutenance des grandes écoles tunisiennes pour créer un trinôme équilibré : Ingénieur Tech, Designer et Marketeur/Financier."}
+                  ? "Our Carthage algorithm syncs academic defense schedules and matches you with student cofounders."
+                  : "L'algorithme de Carthage synchronise les plannings de soutenance des grandes écoles pour créer un trinôme équilibré : Ingénieur Tech, Designer et Marketeur."}
               </p>
               <div className="pt-2">
                 <button
                   onClick={onOpenWorkspace}
-                  className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                  className="superhi-btn-primary cursor-pointer text-xs"
                 >
-                  <span>
-                    {lang === "ar"
-                      ? "الدخول إلى منصة Matchmaking"
-                      : lang === "en"
-                      ? "Open Matchmaking Hub"
-                      : "Accéder au Matchmaking PFE-Hub"}
-                  </span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>{lang === "ar" ? "الدخول إلى منصة Matchmaking" : "Accéder au Matchmaking PFE-Hub"}</span>
+                  <span className="text-base font-normal">→</span>
                 </button>
               </div>
             </div>
 
             <div className="lg:col-span-6 space-y-3">
-              <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center font-mono">
-                    AS
+              {[
+                {
+                  name: "Ahmed Sassi",
+                  school: "INSAT Tunis • Génie Logiciel (Tech Lead)",
+                  match: "98% Match",
+                  initials: "AS",
+                  tag: "TECH LEAD"
+                },
+                {
+                  name: "Yasmine Trabelsi",
+                  school: "Esprit • UI/UX Designer & Product",
+                  match: "96% Match",
+                  initials: "YT",
+                  tag: "PRODUCT DESIGN"
+                },
+                {
+                  name: "Mohamed Dridi",
+                  school: "IHEC Carthage • Business & Finance (SaaS)",
+                  match: "95% Match",
+                  initials: "MD",
+                  tag: "BUSINESS LEAD"
+                }
+              ].map((person, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-[16px] border border-[#e1edff] bg-[#ffffff] shadow-[0_2px_0_0_#111118] flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-9 h-9 rounded-full bg-[#e1edff] text-[#2727e6] font-normal text-xs flex items-center justify-center font-sans border border-[#e1edff]">
+                      {person.initials}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-xs font-normal text-[#111118]">{person.name}</h4>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#f0f6ff] text-[#111118]/70 font-normal">
+                          {person.tag}
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-[#111118]/70 font-normal">{person.school}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900">Ahmed Sassi</h4>
-                    <p className="text-xs text-slate-500 font-mono">INSAT Tunis • Génie Logiciel (Tech Lead)</p>
-                  </div>
+                  <Lozenge appearance="success">{person.match}</Lozenge>
                 </div>
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800">
-                  98% Match
-                </span>
-              </div>
-
-              <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-fuchsia-100 text-fuchsia-700 font-bold flex items-center justify-center font-mono">
-                    YT
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900">Yasmine Trabelsi</h4>
-                    <p className="text-xs text-slate-500 font-mono">Esprit • UI/UX Designer & Product</p>
-                  </div>
-                </div>
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800">
-                  96% Match
-                </span>
-              </div>
-
-              <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center font-mono">
-                    MD
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900">Mohamed Dridi</h4>
-                    <p className="text-xs text-slate-500 font-mono">IHEC Carthage • Business & Finance (SaaS)</p>
-                  </div>
-                </div>
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800">
-                  95% Match
-                </span>
-              </div>
+              ))}
             </div>
           </div>
         )}
 
         {activeTab === "figma" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-6 space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-50 text-fuchsia-700 text-[11px] font-mono font-bold border border-fuchsia-200">
-                <GitBranch className="w-3.5 h-3.5" /> Webhook Figma ↔ GitHub Issues
-              </span>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+              <Lozenge appearance="violet">DEV INTEGRATION</Lozenge>
+              <h3 className="text-2xl font-normal text-[#111118] tracking-tight">
                 {lang === "ar"
                   ? "تحويل تصاميم Figma الجاهزة إلى تذاكر GitHub تلقائياً"
                   : lang === "en"
                   ? "Convert Dev-Ready Figma Frames into GitHub Issues Instantly"
-                  : "Transformez vos maquettes Figma prêtes en tickets GitHub pour les développeurs"}
+                  : "Transformez vos maquettes Figma en tickets dev prêts pour l'équipe"}
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-[#111118]/70 leading-relaxed font-normal">
                 {lang === "ar"
                   ? "بمجرد تغيير حالة شاشة التصميم إلى Dev-Ready، ينشئ النظام تذكرة عمل على GitHub تحتوي على الأبعاد والمواصفات ورابط التصميم."
                   : lang === "en"
-                  ? "When a UI screen is marked Dev-Ready in Figma, PFE-Hub automatically generates a detailed GitHub Issue with specs, dimensions, and previews."
-                  : "Dès que le Designer marque un frame comme 'Dev-Ready' sur Figma, le webhook crée automatiquement l'issue GitHub correspondante pour l'équipe technique INSAT/Esprit."}
+                  ? "When a UI screen is marked Dev-Ready in Figma, PFE-Hub automatically generates a detailed GitHub Issue."
+                  : "Dès que le Designer marque un frame comme 'Dev-Ready' sur Figma, le webhook crée automatiquement l'issue correspondante."}
               </p>
               <div className="pt-2">
                 <button
                   onClick={() => setIsSynced(!isSynced)}
-                  className="px-5 py-3 bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                  className="superhi-btn-primary superhi-btn-compact cursor-pointer text-xs"
                 >
-                  <Zap className="w-4 h-4" />
-                  <span>
-                    {isSynced
-                      ? lang === "ar"
-                        ? "إعادة محاكاة الـ Webhook"
-                        : "Reset Webhook Simulation"
-                      : lang === "ar"
-                      ? "تجربة المزامنة الآن (Dev-Ready)"
-                      : "Simuler la synchronisation (Dev-Ready)"}
-                  </span>
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>{isSynced ? "Réinitialiser la simulation" : "Simuler la synchronisation (Dev-Ready)"}</span>
                 </button>
               </div>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="p-5 rounded-2xl border border-slate-200 bg-slate-900 text-white space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3 text-xs font-mono">
-                  <span className="text-fuchsia-400 font-bold">WEBHOOK: figma.file.updated</span>
-                  <span className="text-emerald-400">HTTP 200 OK</span>
+              <div className="p-5 rounded-[16px] border border-[#e1edff] bg-[#f0f6ff] space-y-3 font-sans">
+                <div className="flex items-center justify-between border-b border-[#e1edff] pb-3 text-xs">
+                  <span className="text-[#111118] font-normal flex items-center gap-1.5">
+                    <GitBranch className="w-3.5 h-3.5 text-[#2727e6]" /> WEBHOOK: figma.frame.updated
+                  </span>
+                  <Lozenge appearance="success">HTTP 200 OK</Lozenge>
                 </div>
-                <div className="space-y-3 font-mono text-xs">
-                  <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
-                    <div className="text-slate-400">1. Maquette sélectionnée:</div>
-                    <div className="text-white font-bold"># Dashboard_Tunnel_Vente (1440x900px)</div>
+                <div className="space-y-2.5 text-xs">
+                  <div className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e1edff]">
+                    <div className="text-[#111118]/60 text-[11px]">1. Frame Détecté :</div>
+                    <div className="text-[#111118] font-mono text-xs font-normal"># Dashboard_Tunnel_Vente (1440x900px)</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+                  <div className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e1edff] flex items-center justify-between">
                     <div>
-                      <div className="text-slate-400">2. Action détectée:</div>
-                      <div className="text-emerald-400 font-bold">Status: "Ready for Dev"</div>
+                      <div className="text-[#111118]/60 text-[11px]">2. Propriété Changée :</div>
+                      <div className="text-[#111118] font-mono text-xs font-normal">status: "Ready for Dev"</div>
                     </div>
-                    {isSynced && (
-                      <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-[10px] uppercase font-bold">
-                        Synchronisé
-                      </span>
-                    )}
+                    {isSynced && <Lozenge appearance="inprogress">SYNCHRONISÉ</Lozenge>}
                   </div>
                   {isSynced && (
-                    <div className="p-3 rounded-lg bg-blue-900/40 border border-blue-500/40 text-blue-200">
-                      <div className="font-bold text-blue-300">✓ Issue GitHub #42 créée avec succès</div>
-                      <div className="text-[11px] text-blue-400 mt-1">
-                        repo: falcon-ai-org/pfe-startup-falcon
+                    <div className="p-3 rounded-[12px] bg-[#16ab59]/10 border border-[#16ab59]/30 text-[#111118] flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 shrink-0 text-[#16ab59] mt-0.5" />
+                      <div>
+                        <div className="font-normal text-xs text-[#111118]">✓ Issue PFE-42 créée avec succès</div>
+                        <div className="text-[11px] font-mono text-[#2727e6]">
+                          repo: falcon-ai-org/pfe-startup-falcon
+                        </div>
                       </div>
                     </div>
                   )}
@@ -470,63 +419,52 @@ export default function LandingFeatureShowcase({
         )}
 
         {activeTab === "afnor" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-6 space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-mono font-bold border border-emerald-200">
-                <BookOpen className="w-3.5 h-3.5" /> Norme AFNOR NF Z 44-005
-              </span>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+              <Lozenge appearance="inprogress">NORME AFNOR NF Z 44-005</Lozenge>
+              <h3 className="text-2xl font-normal text-[#111118] tracking-tight">
                 {lang === "ar"
                   ? "هوامش سفلية آلية Ibid. و Op. Cit. متوافقة مع الجامعات التونسية"
                   : lang === "en"
-                  ? "Automated Ibid. & Op. Cit. Footnotes for Tunisian Universities"
-                  : "Gestion automatisée des notes de bas de page (Ibid., Op. Cit., Loc. Cit.)"}
+                  ? "Automated Ibid. & Op. Cit. Academic Footnotes"
+                  : "Citations universitaires automatisées selon la norme AFNOR"}
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-[#111118]/70 leading-relaxed font-normal">
                 {lang === "ar"
-                  ? "يتحكم المحرر الأكاديمي في تسلسل المراجع ويضع علامات الاقتباس اللاتينية بدقة متناهية دون أي تدخل يدوي."
+                  ? "يتولى النظام إدارة الإشارات المرجعية بدقة متناهية: استخدام Ibid. عند تكرار نفس المرجع مباشرة، و Op. Cit. عند الاستشهاد بمرجع سبق ذكره."
                   : lang === "en"
-                  ? "Our academic engine tracks sequential citations dynamically and applies AFNOR NF Z 44-005 abbreviations without manual cross-referencing."
-                  : "Le moteur de traitement Scrivya identifie les citations consécutives et formate automatiquement les notes de bas de page selon les standards des jurys d'État."}
+                  ? "Automatically manages Ibidem and Opere Citato chronologies for compliant academic formatting."
+                  : "Le système analyse la chronologie des citations pour insérer les mentions Ibid. et Op. Cit. avec précision typographique."}
               </p>
               <div className="pt-2">
                 <button
                   onClick={onOpenWorkspace}
-                  className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                  className="superhi-btn-primary cursor-pointer text-xs"
                 >
-                  <FileText className="w-4 h-4" />
-                  <span>
-                    {lang === "ar"
-                      ? "فتح محرر AFNOR Z 44-005"
-                      : lang === "en"
-                      ? "Open AFNOR Z 44-005 Studio"
-                      : "Ouvrir l'éditeur AFNOR Z 44-005"}
-                  </span>
+                  <span>{lang === "ar" ? "فتح محرر AFNOR" : "Ouvrir l'éditeur AFNOR"}</span>
+                  <span className="text-base font-normal">→</span>
                 </button>
               </div>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="p-6 rounded-2xl border border-slate-200 bg-slate-50 font-serif text-slate-800 space-y-4 shadow-inner">
-                <div className="text-xs font-sans font-bold text-slate-500 uppercase tracking-wider pb-2 border-b border-slate-200">
-                  Aperçu Note de Bas de Page (Automatique)
+              <div className="p-5 rounded-[16px] border border-[#e1edff] bg-[#f0f6ff] space-y-3 font-serif">
+                <div className="text-xs text-[#111118]/70 font-sans font-normal border-b border-[#e1edff] pb-2 flex items-center justify-between">
+                  <span>EXEMPLE DE BAS DE PAGE AFNOR</span>
+                  <Lozenge appearance="success">CONFORME INSAT / UNIVERSITÉ</Lozenge>
                 </div>
-                <div className="text-xs space-y-2.5 leading-relaxed">
-                  <div className="flex gap-2">
-                    <span className="font-bold text-blue-600">[1]</span>
-                    <span>DUPONT, Michel. <em>La Modélisation COGS en Tunisie</em>. Paris : Éditions Universitaires, 2025, p. 44.</span>
+                <div className="space-y-2 text-xs text-[#111118] leading-relaxed">
+                  <div className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e1edff]">
+                    <span className="font-mono text-[#2727e6] font-normal">[1] </span>
+                    BEN SLIMANE, Karim. <em>Génie logiciel et architecture cloud en Tunisie</em>. Tunis : CPU, 2024, p. 45-48.
                   </div>
-                  <div className="flex gap-2 bg-emerald-50 p-2 rounded border border-emerald-200">
-                    <span className="font-bold text-emerald-700">[2]</span>
-                    <span className="text-emerald-900 font-medium"><em>Ibid.</em>, p. 48. <span className="text-[10px] font-sans font-bold text-emerald-700 ml-2">(Référence consécutive détectée)</span></span>
+                  <div className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e1edff]">
+                    <span className="font-mono text-[#2727e6] font-normal">[2] </span>
+                    <em>Ibid.</em>, p. 52. <span className="text-[11px] text-[#111118]/60 font-sans">(Même ouvrage, page suivante)</span>
                   </div>
-                  <div className="flex gap-2">
-                    <span className="font-bold text-blue-600">[3]</span>
-                    <span>BEN AMMAR, Youssef. <em>Audit du Startup Act</em>. Tunis : INSAT Press, 2026, p. 112.</span>
-                  </div>
-                  <div className="flex gap-2 bg-indigo-50 p-2 rounded border border-indigo-200">
-                    <span className="font-bold text-indigo-700">[4]</span>
-                    <span className="text-indigo-900 font-medium">DUPONT, M., <em>op. cit.</em>, p. 89. <span className="text-[10px] font-sans font-bold text-indigo-700 ml-2">(Ouvrage déjà cité)</span></span>
+                  <div className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e1edff]">
+                    <span className="font-mono text-[#2727e6] font-normal">[3] </span>
+                    BEN SLIMANE, Karim, <em>op. cit.</em>, p. 89. <span className="text-[11px] text-[#111118]/60 font-sans">(Rappel de l'ouvrage précédent)</span>
                   </div>
                 </div>
               </div>
@@ -534,6 +472,7 @@ export default function LandingFeatureShowcase({
           </div>
         )}
       </div>
+
     </div>
   );
 }

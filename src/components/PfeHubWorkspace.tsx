@@ -365,112 +365,109 @@ export default function PfeHubWorkspace({ onBackToEditor, isLight }: PfeHubWorks
     }
   };
 
-  // Color theme helpers
-  const themeCardBg = isLight ? "bg-white border-slate-200 shadow-sm text-slate-800" : "bg-slate-900/40 border-white/10 text-slate-100";
-  const themeTextPrimary = isLight ? "text-slate-900" : "text-white";
-  const themeTextSecondary = isLight ? "text-slate-600" : "text-slate-400";
-  const themeTextMuted = isLight ? "text-slate-400" : "text-slate-500";
-  const themeSubCardBg = isLight ? "bg-slate-50 border-slate-200" : "bg-slate-950/45 border-white/5";
-  const themeBorder = isLight ? "border-slate-200" : "border-white/10";
-  const themeHeaderBorder = isLight ? "border-slate-300/60" : "border-white/10";
-  const themeTitleGradient = isLight ? "bg-gradient-to-r from-blue-700 to-indigo-700" : "bg-gradient-to-r from-blue-400 via-indigo-400 to-fuchsia-400";
-  const themeInputBg = isLight ? "bg-slate-50 border-slate-200 text-slate-800 focus:bg-white" : "bg-slate-950/60 border-white/15 text-white focus:border-indigo-500/50";
+  // Color theme helpers (SuperHi Design System)
+  const themeCardBg = "bg-[#ffffff] border-[#e1edff] shadow-[0_2px_0_0_#111118] text-[#111118] rounded-[24px]";
+  const themeTextPrimary = "text-[#111118]";
+  const themeTextSecondary = "text-[#111118]/70";
+  const themeTextMuted = "text-[#111118]/50";
+  const themeSubCardBg = "bg-[#f0f6ff] border-[#e1edff] rounded-[16px]";
+  const themeBorder = "border-[#e1edff]";
+  const themeHeaderBorder = "border-[#e1edff]";
+  const themeInputBg = "bg-[#ffffff] border-[#e1edff] text-[#111118] focus:border-[#2727e6] rounded-full px-4 py-2 outline-none shadow-[0_1px_0_0_#111118]";
 
   return (
-    <div id="pfe-hub-root" className={`min-h-screen p-4 md:p-8 transition-colors duration-300 ${isLight ? "bg-slate-50 text-slate-900" : "bg-slate-950 text-slate-100"}`}>
+    <div id="pfe-hub-root" className="min-h-screen p-4 md:p-8 bg-[#f0f6ff] text-[#111118] font-sans transition-colors duration-200">
       
-      {/* HEADER SECTION */}
-      <header id="pfe-hub-header" className={`max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-6 border-b ${themeHeaderBorder} mb-8`}>
+      {/* SUPERHI HEADER SECTION */}
+      <header id="pfe-hub-header" className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-6 border-b border-[#e1edff] mb-8">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span id="badge-startup-engine" className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold font-mono uppercase bg-blue-600/10 text-blue-500 dark:bg-blue-600/20 dark:text-blue-400 rounded-full border border-blue-500/15">
-              <Sparkles className="w-3 h-3" /> Tunisian PFE-Startup Engine
+            <span className="w-7 h-7 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6] flex items-center justify-center text-xs shadow-[0_1px_0_0_#111118]">
+              PFE
             </span>
-            <span id="badge-compliance-ok" className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold font-mono uppercase bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 rounded-full border border-emerald-500/15">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
-              Startup Act Compliant
+            <span className="text-xs text-[#2727e6] font-normal">PFE-HUB / STARTUP ACT</span>
+            <span className="text-[#e1edff]">•</span>
+            <span id="badge-compliance-ok" className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#111118]">
+              <span className="w-2 h-2 rounded-full bg-[#2727e6]" />
+              <span className="text-[11px] font-normal">LABEL STARTUP ACT CONFORME</span>
             </span>
           </div>
-          <h1 id="title-pfe-hub" className="text-3xl md:text-4xl font-sans font-bold tracking-tight">
-            PFE-Hub <span className={`bg-clip-text text-transparent ${themeTitleGradient}`}>Synchronizer</span>
+          <h1 id="title-pfe-hub" className="text-2xl md:text-3xl font-normal tracking-tight text-[#111118]">
+            PFE-Hub Synchronizer & Labellisation
           </h1>
-          <p id="desc-pfe-hub" className={`text-sm ${themeTextSecondary}`}>
-            Espace d'interconnexion technique (Figma & GitHub), financier (Moteur COGS) et académique (Dossier de labellisation d'État Tunisie).
+          <p id="desc-pfe-hub" className="text-xs text-[#111118]/70">
+            Espace d'interconnexion technique (Figma & GitHub), financier (Moteur COGS &lt; 30%) et académique (Dossier de labellisation d'État Tunisie).
           </p>
         </div>
 
-        <div id="header-actions" className="flex items-center gap-3 shrink-0 w-full lg:w-auto">
+        <div id="header-actions" className="flex items-center gap-2.5 shrink-0 w-full lg:w-auto">
           <button 
             id="btn-reset-db"
             onClick={handleReSeed} 
-            className={`flex-1 lg:flex-none px-4 py-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-              isLight 
-                ? "bg-white border-slate-300 hover:bg-slate-100 text-slate-800 shadow-sm" 
-                : "bg-slate-900/60 border-white/10 hover:bg-slate-800 text-slate-300"
-            }`}
+            className="px-4 py-2 rounded-full border border-[#e1edff] bg-[#ffffff] text-[#111118] hover:border-[#111118] text-xs font-normal flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-[0_1px_0_0_#111118]"
             title="Réinitialiser la base de données de test"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            Seed DB Demo
+            <span>Seed DB Demo</span>
           </button>
           
           <button 
             id="btn-back-editor"
             onClick={onBackToEditor} 
-            className="flex-1 lg:flex-none px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md shadow-blue-600/10 hover:scale-[1.02] cursor-pointer"
+            className="px-5 py-2 rounded-full bg-[#2727e6] hover:scale-105 active:translate-y-0.5 text-white text-xs font-normal flex items-center justify-center gap-1.5 transition-all shadow-[0_2px_0_0_#111118] cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Retour à l'Éditeur
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Retour à l'Éditeur</span>
           </button>
         </div>
       </header>
 
       {/* ERROR MESSAGE NOTIFICATION */}
       {errorMsg && (
-        <div id="error-banner" className="max-w-7xl mx-auto mb-8 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center justify-between shadow-sm">
+        <div id="error-banner" className="max-w-7xl mx-auto mb-6 p-3 rounded-[16px] bg-[#ffffff] border border-red-300 text-red-600 text-xs flex items-center justify-between shadow-[0_2px_0_0_#111118]">
           <span className="flex items-center gap-2">⚠️ {errorMsg}</span>
-          <button onClick={() => setErrorMsg(null)} className="font-bold underline text-[10px] uppercase cursor-pointer">Fermer</button>
+          <button onClick={() => setErrorMsg(null)} className="font-normal underline text-[10px] uppercase cursor-pointer">Fermer</button>
         </div>
       )}
 
-      {/* VIEW SELECTION TAB BAR */}
+      {/* SUPERHI PILL TAB BAR */}
       <div id="tabs-navigation" className="max-w-7xl mx-auto mb-8">
-        <div className={`inline-flex p-1 rounded-2xl border ${isLight ? "bg-slate-150 border-slate-200" : "bg-slate-900/60 border-white/10"} w-full md:w-auto md:min-w-[450px]`}>
+        <div className="flex items-center gap-2 p-1 bg-[#ffffff] border border-[#e1edff] rounded-full shadow-[0_1px_0_0_#111118] w-fit overflow-x-auto">
           <button
             id="tab-btn-workspace"
             onClick={() => setActiveTab("workspace")}
-            className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+            className={`py-1.5 px-4 text-xs font-normal transition-all flex items-center gap-2 cursor-pointer rounded-full ${
               activeTab === "workspace" 
-                ? "bg-blue-600 text-white shadow-sm" 
-                : `${isLight ? "text-slate-600 hover:text-slate-950" : "text-slate-400 hover:text-white"}`
+                ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]" 
+                : "text-[#111118]/70 hover:bg-[#f0f6ff] hover:text-[#111118]"
             }`}
           >
-            <Layers className="w-4 h-4" />
-            Workspace Actif
+            <Layers className="w-3.5 h-3.5" />
+            <span>Workspace Actif</span>
           </button>
           <button
             id="tab-btn-matchmaking"
             onClick={() => setActiveTab("matchmaking")}
-            className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+            className={`py-1.5 px-4 text-xs font-normal transition-all flex items-center gap-2 cursor-pointer rounded-full ${
               activeTab === "matchmaking" 
-                ? "bg-blue-600 text-white shadow-sm" 
-                : `${isLight ? "text-slate-600 hover:text-slate-950" : "text-slate-400 hover:text-white"}`
+                ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]" 
+                : "text-[#111118]/70 hover:bg-[#f0f6ff] hover:text-[#111118]"
             }`}
           >
-            <Users className="w-4 h-4" />
-            Smart Matchmaking
+            <Users className="w-3.5 h-3.5" />
+            <span>Smart Matchmaking Carthage</span>
           </button>
           <button
             id="tab-btn-schema"
             onClick={() => setActiveTab("schema")}
-            className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+            className={`py-1.5 px-4 text-xs font-normal transition-all flex items-center gap-2 cursor-pointer rounded-full ${
               activeTab === "schema" 
-                ? "bg-blue-600 text-white shadow-sm" 
-                : `${isLight ? "text-slate-600 hover:text-slate-950" : "text-slate-400 hover:text-white"}`
+                ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]" 
+                : "text-[#111118]/70 hover:bg-[#f0f6ff] hover:text-[#111118]"
             }`}
           >
-            <Database className="w-4 h-4" />
-            Modèle Prisma / SQL
+            <Database className="w-3.5 h-3.5" />
+            <span>Modèle Prisma / SQL</span>
           </button>
         </div>
       </div>
@@ -1034,7 +1031,7 @@ export default function PfeHubWorkspace({ onBackToEditor, isLight }: PfeHubWorks
                       <span className="text-sm font-extrabold text-indigo-600 dark:text-indigo-400 font-mono">{checklistScore} / {startupChecklist.length} ({checklistPercent}%)</span>
                     </div>
                     <div className="w-32 h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-550" style={{ width: `${checklistPercent}%` }} />
+                      <div className="h-full bg-[#2727e6] rounded-full transition-all duration-550" style={{ width: `${checklistPercent}%` }} />
                     </div>
                   </div>
                 </div>

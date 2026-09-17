@@ -1,6 +1,6 @@
 {
-  "name": "Home Page",
-  "description": "La plateforme intelligente d'accompagnement académique qui prend en charge la complexité des normes AFNOR, de la mise en page universitaire, de la formulation et du plan de votre mémoire.",
+  "name": "Scrivya",
+  "description": "Plateforme académique et d'amorçage pour transformer votre PFE en startup labellisée selon les normes AFNOR et le Startup Act Tunisie.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

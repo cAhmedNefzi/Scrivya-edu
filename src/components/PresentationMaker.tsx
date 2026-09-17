@@ -989,93 +989,103 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
   );
 
   return (
-    <div className={`flex flex-col h-screen w-full select-none ${isLight ? "bg-slate-50 text-slate-900" : "bg-[#090b14] text-slate-100"}`}>
+    <div className="flex flex-col h-screen w-full select-none bg-[#f0f6ff] text-[#111118] font-sans">
       
       {/* ==========================================
-          HEADER BAR
+          HEADER BAR (SUPERHI MINIMALIST DESIGN)
          ========================================== */}
-      <header className={`px-6 h-16 border-b flex items-center justify-between shrink-0 z-50 ${isLight ? "bg-white/85 border-slate-200" : "bg-[#0c0f1a]/90 border-slate-800/80"} backdrop-blur-xl`}>
+      <header className="px-6 h-14 border-b border-[#e1edff] bg-[#ffffff] flex items-center justify-between shrink-0 z-50 select-none shadow-[0_1px_0_0_#111118]">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-fuchsia-600 to-pink-600 flex items-center justify-center text-white shadow-md">
-            <PresentationIcon className="w-5 h-5 animate-spin" style={{ animationDuration: "15s" }} />
-          </div>
-          <div>
-            <h1 className="text-sm font-extrabold tracking-tight">Scrivya-Deck</h1>
-            <p className="text-[10px] font-medium text-slate-500 font-mono">STUDIO CONCEPTEUR CANVA & IA</p>
-          </div>
-        </div>
-
-        {/* Presentation Title */}
-        <div className="hidden md:flex items-center gap-2 max-w-md bg-slate-500/5 px-3 py-1.5 rounded-lg border border-slate-500/10">
-          <span className="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-widest">Titre:</span>
-          {editingTitle ? (
-            <input
-              type="text"
-              value={presentation.title}
-              onChange={(e) => setPresentation({ ...presentation, title: e.target.value })}
-              onBlur={() => setEditingTitle(false)}
-              onKeyDown={(e) => { if (e.key === "Enter") setEditingTitle(false); }}
-              autoFocus
-              className="text-xs font-semibold bg-transparent outline-none border-b border-fuchsia-500 text-slate-200 w-64"
-            />
-          ) : (
-            <span 
-              onDoubleClick={() => setEditingTitle(true)}
-              className="text-xs font-bold truncate cursor-pointer hover:text-fuchsia-400 select-none max-w-[280px]"
-            >
-              {presentation.title}
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-[#f0f6ff] border border-[#e1edff] flex items-center justify-center text-[#2727e6]">
+              <PresentationIcon className="w-4 h-4" />
+            </div>
+            <span className="text-xs font-normal text-[#111118]">Scrivya-Deck</span>
+            <span className="text-[10px] font-normal px-2.5 py-0.5 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6]">
+              Présentation
             </span>
-          )}
+          </div>
+
+          <div className="h-4 w-px bg-[#e1edff] hidden md:block" />
+
+          {/* Presentation Title */}
+          <div className="hidden md:flex items-center gap-2">
+            <span className="text-[11px] text-[#111118]/50">Titre:</span>
+            {editingTitle ? (
+              <input
+                type="text"
+                value={presentation.title}
+                onChange={(e) => setPresentation({ ...presentation, title: e.target.value })}
+                onBlur={() => setEditingTitle(false)}
+                onKeyDown={(e) => { if (e.key === "Enter") setEditingTitle(false); }}
+                autoFocus
+                className="text-xs font-normal bg-[#f0f6ff] border border-[#2727e6] rounded-full px-3 py-1 outline-none text-[#111118] w-64 shadow-[0_1px_0_0_#111118]"
+              />
+            ) : (
+              <span 
+                onDoubleClick={() => setEditingTitle(true)}
+                title="Double-cliquer pour renommer"
+                className="text-xs font-normal truncate cursor-pointer hover:text-[#2727e6] select-none max-w-[280px] text-[#111118]"
+              >
+                {presentation.title}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Toolbar Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-sans">
           {selectedElementId && (
             <button 
               onClick={deleteSelectedElement}
-              className="p-2 rounded-lg bg-red-500/10 border border-red-500/25 hover:bg-red-500/20 text-red-400 transition-colors"
+              className="p-1.5 rounded-full bg-[#ffffff] border border-[#e1edff] hover:border-[#111118] text-[#111118] transition-colors cursor-pointer shadow-[0_1px_0_0_#111118]"
               title="Supprimer l'élément actif (Del)"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="w-3.5 h-3.5" />
             </button>
           )}
 
-          <button 
+          <button
             onClick={() => setIsFullscreen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-500/10 border border-slate-500/15 hover:bg-slate-500/20 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal border border-[#e1edff] bg-[#f0f6ff] hover:border-[#2727e6] text-[#111118] shadow-[0_1px_0_0_#111118] transition-all cursor-pointer"
           >
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3.5 h-3.5 text-[#2727e6]" />
             <span>Soutenance</span>
           </button>
 
           <div className="relative group">
-            <button className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:from-fuchsia-500 hover:to-pink-500 text-white shadow-md transition-all">
+            <button
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-normal bg-[#2727e6] hover:scale-105 active:translate-y-0.5 text-white shadow-[0_2px_0_0_#111118] transition-all cursor-pointer"
+            >
               <Download className="w-3.5 h-3.5" />
               <span>Exporter</span>
             </button>
-            <div className={`absolute right-0 top-full mt-2 w-48 rounded-xl border p-2 shadow-xl backdrop-blur-2xl opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50 ${isLight ? "bg-white border-slate-200" : "bg-[#0f111a] border-slate-800"}`}>
+            <div className="absolute right-0 top-full mt-1.5 w-52 rounded-[16px] border border-[#e1edff] bg-[#ffffff] p-1.5 shadow-[0_4px_0_0_#111118] opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-150 z-50">
               <button 
                 onClick={handleExportPDF}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-left hover:bg-fuchsia-500/10 hover:text-fuchsia-400 transition-colors"
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-full text-xs font-normal text-left hover:bg-[#f0f6ff] text-[#111118] hover:text-[#2727e6] transition-colors cursor-pointer"
               >
-                <FileDown className="w-4 h-4 text-fuchsia-500" />
+                <FileDown className="w-3.5 h-3.5 text-[#2727e6]" />
                 <span>Format PDF académique</span>
               </button>
               <button 
                 onClick={downloadJSONDeck}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-left hover:bg-pink-500/10 hover:text-pink-400 transition-colors"
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-full text-xs font-normal text-left hover:bg-[#f0f6ff] text-[#111118] hover:text-[#2727e6] transition-colors cursor-pointer"
               >
-                <Code className="w-4 h-4 text-pink-500" />
+                <Code className="w-3.5 h-3.5 text-[#2727e6]" />
                 <span>Fichier source JSON</span>
               </button>
             </div>
           </div>
 
-          <button 
+          <div className="w-px h-4 bg-[#e1edff] mx-0.5" />
+
+          <button
             onClick={onBackToEditor}
-            className="p-2 rounded-lg hover:bg-slate-500/10 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal border border-[#e1edff] hover:bg-[#f0f6ff] text-[#111118] transition-all cursor-pointer"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="w-3.5 h-3.5" />
+            <span>Quitter</span>
           </button>
         </div>
       </header>
@@ -1088,15 +1098,15 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
         {/* ==========================================
             LEFT SIDEBAR (CANVA TOOL TABS)
            ========================================== */}
-        <aside className={`w-[340px] border-r flex flex-col shrink-0 ${isLight ? "bg-white border-slate-200" : "bg-[#0b0c14] border-slate-800/80"} z-40`}>
+        <aside className="w-[340px] border-r border-[#e1edff] bg-[#ffffff] flex flex-col shrink-0 z-40 font-sans">
           {/* Tab Selection */}
-          <div className="grid grid-cols-5 border-b border-slate-800/40 p-1.5 gap-0.5 shrink-0">
+          <div className="grid grid-cols-5 border-b border-[#e1edff] p-2 gap-1 shrink-0 bg-[#ffffff]">
             {[
               { id: "templates", label: "Thèmes", icon: <Palette className="w-3.5 h-3.5" /> },
-              { id: "presenton", label: "Presenton", icon: <Sparkles className="w-3.5 h-3.5 text-violet-400" /> },
+              { id: "presenton", label: "Générer", icon: <Sparkles className="w-3.5 h-3.5" /> },
               { id: "assets", label: "Actifs", icon: <Shapes className="w-3.5 h-3.5" /> },
-              { id: "ai_image", label: "Image IA", icon: <ImageIcon className="w-3.5 h-3.5" /> },
-              { id: "api_import", label: "Web API", icon: <Code className="w-3.5 h-3.5" /> }
+              { id: "ai_image", label: "Image", icon: <ImageIcon className="w-3.5 h-3.5" /> },
+              { id: "api_import", label: "API", icon: <Code className="w-3.5 h-3.5" /> }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1108,12 +1118,10 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
                     setGenerationEngine("scrivya");
                   }
                 }}
-                className={`flex flex-col items-center justify-center py-2 rounded-lg text-[9px] font-bold gap-1 transition-all ${
+                className={`flex flex-col items-center justify-center py-2 rounded-full text-[10px] font-normal gap-1 transition-all cursor-pointer ${
                   activeTab === tab.id 
-                    ? tab.id === "presenton"
-                      ? "bg-violet-650/15 text-violet-400 border border-violet-500/25 shadow-sm"
-                      : "bg-fuchsia-600/15 text-fuchsia-400 shadow-sm border border-fuchsia-500/20" 
-                    : "text-slate-500 hover:bg-slate-500/5 hover:text-slate-300"
+                    ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]" 
+                    : "text-[#111118]/70 hover:bg-[#f0f6ff] hover:text-[#111118]"
                 }`}
               >
                 {tab.icon}
@@ -1483,7 +1491,7 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
                       <button
                         onClick={handleGenerateFullPresentation}
                         disabled={aiLoading}
-                        className="w-full py-3 rounded-xl text-xs font-bold disabled:bg-slate-800 disabled:text-slate-600 text-white flex items-center justify-center gap-2 transition-all shadow-lg bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-violet-600/10 active:scale-[0.98]"
+                        className="w-full py-3 rounded-full text-xs font-normal disabled:bg-slate-300 disabled:text-slate-500 text-white flex items-center justify-center gap-2 transition-all bg-[#2727e6] hover:scale-102 active:translate-y-0.5 shadow-[0_2px_0_0_#111118] cursor-pointer"
                       >
                         {aiLoading ? (
                           <RefreshCw className="w-4 h-4 animate-spin" />
@@ -2229,23 +2237,25 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
           {/* ==========================================
               BOTTOM SLIDE THUMBNAILS CAROUSEL (DRAG REORDER)
              ========================================== */}
-          <div className={`p-4 rounded-2xl border shrink-0 ${isLight ? "bg-white border-slate-200" : "bg-[#0c0f1a]/85 border-slate-800/80"} backdrop-blur-xl`}>
+          <div className="p-4 rounded-[20px] border border-[#e1edff] bg-[#ffffff] shadow-[0_2px_0_0_#111118] shrink-0 font-sans">
             <div className="flex items-center justify-between mb-3.5">
-              <div className="flex items-center gap-1.5">
-                <Layers className="w-4 h-4 text-fuchsia-400" />
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Plan des Diapositives (Glisser pour ordonner)</span>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-[#f0f6ff] border border-[#e1edff] flex items-center justify-center text-[#2727e6]">
+                  <Layers className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs font-normal text-[#111118]">Plan des Diapositives</span>
               </div>
               <div className="flex gap-1.5">
                 <button 
                   onClick={addBlankSlide}
-                  className="flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-bold bg-fuchsia-600/15 border border-fuchsia-500/20 hover:bg-fuchsia-600/25 text-fuchsia-400 transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-normal bg-[#f0f6ff] border border-[#e1edff] hover:border-[#2727e6] text-[#111118] shadow-[0_1px_0_0_#111118] transition-all cursor-pointer"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Ajouter</span>
                 </button>
                 <button 
                   onClick={deleteActiveSlide}
-                  className="flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-bold bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-normal bg-[#ffffff] border border-[#e1edff] hover:border-[#111118] text-[#111118] shadow-[0_1px_0_0_#111118] transition-all cursor-pointer"
                 >
                   <Trash2 className="w-3 h-3" />
                   <span>Supprimer</span>
@@ -2269,19 +2279,17 @@ export default function PresentationMaker({ onBackToEditor, isLight }: Presentat
                       setActiveSlideIndex(idx);
                       setSelectedElementId(null);
                     }}
-                    className={`relative w-36 aspect-[16/10] rounded-xl overflow-hidden cursor-pointer border shrink-0 transition-all ${
+                    className={`relative w-36 aspect-[16/10] rounded-[14px] overflow-hidden cursor-pointer border shrink-0 transition-all ${
                       isActive 
-                        ? "border-fuchsia-500 ring-2 ring-fuchsia-500/30 scale-102" 
-                        : "border-slate-800/60 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-900/40"
+                        ? "border-[#2727e6] shadow-[0_2px_0_0_#111118] bg-[#f0f6ff]" 
+                        : "border-[#e1edff] bg-[#ffffff] hover:border-[#2727e6]"
                     }`}
                   >
-                    <div className="absolute inset-0 p-2 flex flex-col justify-between z-10 pointer-events-none">
-                      <span className="text-[8px] font-bold text-slate-500 font-mono">0{idx + 1}</span>
-                      <span className="text-[9px] font-bold truncate block text-slate-300 pr-1">{slide.title}</span>
-                      <span className="text-[7px] font-medium text-slate-600 uppercase tracking-wider block font-mono">{slide.layout}</span>
+                    <div className="absolute inset-0 p-2.5 flex flex-col justify-between z-10 pointer-events-none">
+                      <span className="text-[9px] font-normal text-[#111118]/50">0{idx + 1}</span>
+                      <span className="text-[10px] font-normal truncate block text-[#111118] pr-1">{slide.title}</span>
+                      <span className="text-[8px] font-normal text-[#2727e6] uppercase tracking-wider block">{slide.layout}</span>
                     </div>
-                    {/* Visual theme mock inside thumbnails */}
-                    <div className="absolute inset-0 opacity-10 bg-gradient-to-tr from-fuchsia-500 to-pink-500 pointer-events-none" />
                   </div>
                 );
               })}

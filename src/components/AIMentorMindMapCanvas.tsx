@@ -457,7 +457,7 @@ export default function AIMentorMindMapCanvas({
   };
 
   return (
-    <div className="relative w-full h-[650px] overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40 select-none">
+    <div className="relative w-full h-[650px] overflow-hidden rounded-[20px] border border-[#e1edff] bg-[#f0f6ff] shadow-[0_2px_0_0_#111118] select-none font-sans">
       <style>{`
         @keyframes line-dash-flow {
           to {
@@ -491,21 +491,10 @@ export default function AIMentorMindMapCanvas({
           }}
         >
           {/* BACKGROUND DECORATIVE GRID */}
-          <div className="absolute inset-[-2000px] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-40 dark:bg-[radial-gradient(#334155_1px,transparent_1px)] pointer-events-none" />
+          <div className="absolute inset-[-2000px] bg-[radial-gradient(#e1edff_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none" />
 
           {/* SVG CONNECTIONS LAYER */}
           <svg className="absolute overflow-visible pointer-events-none z-0" style={{ width: 1, height: 1 }}>
-            <defs>
-              <linearGradient id="rose-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f43f5e" />
-                <stop offset="100%" stopColor="#ec4899" />
-              </linearGradient>
-              <linearGradient id="sky-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0ea5e9" />
-                <stop offset="100%" stopColor="#3b82f6" />
-              </linearGradient>
-            </defs>
-
             {connections.map(conn => {
               const fromNode = nodes.find(n => n.id === conn.from);
               const toNode = nodes.find(n => n.id === conn.to);
@@ -522,10 +511,10 @@ export default function AIMentorMindMapCanvas({
                   fill="none"
                   className={
                     isAISuggested 
-                      ? "custom-cables stroke-fuchsia-400 dark:stroke-fuchsia-500" 
+                      ? "custom-cables stroke-[#2727e6]" 
                       : conn.id.startsWith("custom_conn")
-                      ? "custom-cables stroke-amber-400"
-                      : "animated-cables"
+                      ? "custom-cables stroke-[#2727e6]/70"
+                      : "animated-cables stroke-[#2727e6]/40"
                   }
                 />
               );
@@ -537,55 +526,51 @@ export default function AIMentorMindMapCanvas({
             const isSelected = selectedNodeId === node.id;
             
             // Render styled cards depending on node types
-            let cardStyle = "border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-50";
-            let iconElement = <Compass className="w-4 h-4 text-slate-500" />;
-            let badgeStyle = "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300";
+            let cardStyle = "border-[#e1edff] bg-[#ffffff] text-[#111118] shadow-[0_2px_0_0_#111118]";
+            let iconElement = <Compass className="w-4 h-4 text-[#2727e6]" />;
+            let badgeStyle = "bg-[#f0f6ff] text-[#111118] border border-[#e1edff]";
             let badgeLabel = "Structure";
 
             if (node.type === "goal") {
-              cardStyle = "border-fuchsia-500 bg-gradient-to-br from-fuchsia-500/10 via-white to-violet-500/10 dark:from-fuchsia-950/20 dark:via-slate-900 dark:to-violet-950/20 shadow-lg font-bold border-2 ring-4 ring-fuchsia-500/10 scale-105";
-              iconElement = <Sparkles className="w-5 h-5 text-fuchsia-500 animate-pulse" />;
-              badgeStyle = "bg-fuchsia-500 text-white";
-              badgeLabel = "Objectif Suprême";
+              cardStyle = "border-[#2727e6] bg-[#ffffff] text-[#111118] shadow-[0_4px_0_0_#111118] font-normal";
+              iconElement = <Sparkles className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#2727e6] text-white";
+              badgeLabel = "Objectif";
             } else if (node.type === "pillar") {
-              cardStyle = "border-slate-300 bg-slate-50/90 text-slate-900 font-semibold dark:border-slate-700 dark:bg-slate-800/90 dark:text-slate-100 shadow-md border-dashed";
-              iconElement = <Activity className="w-4 h-4 text-slate-600 dark:text-slate-300" />;
-              badgeStyle = "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
+              cardStyle = "border-[#e1edff] bg-[#f0f6ff] text-[#111118] font-normal shadow-[0_2px_0_0_#111118] border-dashed";
+              iconElement = <Activity className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#ffffff] border border-[#e1edff] text-[#111118]";
               badgeLabel = "Pôle";
             } else if (node.type === "course") {
-              iconElement = <BookOpen className="w-4 h-4 text-rose-500" />;
+              iconElement = <BookOpen className="w-4 h-4 text-[#2727e6]" />;
               badgeLabel = "Cours";
               if (node.status === "completed") {
-                badgeStyle = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400";
+                badgeStyle = "bg-[#2727e6] text-white";
                 badgeLabel = "Complété";
-                cardStyle += " border-emerald-300 dark:border-emerald-800/40";
               } else if (node.status === "inprogress") {
-                badgeStyle = "bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400";
+                badgeStyle = "bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6]";
                 badgeLabel = "En cours";
-                cardStyle += " border-amber-300 dark:border-amber-800/40";
               } else {
-                badgeStyle = "bg-rose-100 text-rose-800 dark:bg-rose-950/30 dark:text-rose-400";
+                badgeStyle = "bg-[#f0f6ff] text-[#111118]/70 border border-[#e1edff]";
               }
             } else if (node.type === "internship") {
-              iconElement = <Briefcase className="w-4 h-4 text-sky-500" />;
-              badgeStyle = "bg-sky-100 text-sky-800 dark:bg-sky-950/30 dark:text-sky-400";
-              badgeLabel = "Projet / Stage";
+              iconElement = <Briefcase className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#f0f6ff] text-[#2727e6] border border-[#e1edff]";
+              badgeLabel = "Stage";
             } else if (node.type === "skill") {
-              iconElement = <Award className="w-4 h-4 text-emerald-500" />;
-              badgeStyle = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400";
-              badgeLabel = `Niveau: ${node.level}%`;
+              iconElement = <Award className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#f0f6ff] text-[#2727e6] border border-[#e1edff]";
+              badgeLabel = `${node.level}%`;
             } else if (node.type === "career") {
-              iconElement = <TrendingUp className="w-4 h-4 text-violet-500" />;
-              badgeStyle = "bg-violet-100 text-violet-800 dark:bg-violet-950/30 dark:text-violet-400";
+              iconElement = <TrendingUp className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#f0f6ff] text-[#2727e6] border border-[#e1edff]";
               badgeLabel = "Étape";
             } else if (node.type === "custom") {
               const isAIExt = node.category?.includes("IA");
-              iconElement = isAIExt ? <Sparkles className="w-4 h-4 text-fuchsia-500" /> : <HelpCircle className="w-4 h-4 text-amber-500" />;
-              badgeStyle = isAIExt ? "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-950/40 dark:text-fuchsia-400" : "bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400";
+              iconElement = isAIExt ? <Sparkles className="w-4 h-4 text-[#2727e6]" /> : <HelpCircle className="w-4 h-4 text-[#2727e6]" />;
+              badgeStyle = "bg-[#f0f6ff] text-[#2727e6] border border-[#e1edff]";
               badgeLabel = node.category || "Idée";
-              cardStyle = isAIExt 
-                ? "border-fuchsia-300 bg-gradient-to-r from-fuchsia-50/50 to-white dark:border-fuchsia-900/50 dark:from-fuchsia-950/20 dark:to-slate-900 border"
-                : "border-amber-200 bg-gradient-to-r from-amber-50/50 to-white dark:border-amber-900/50 dark:from-amber-950/20 dark:to-slate-900 border";
+              cardStyle = "border-[#e1edff] bg-[#ffffff] text-[#111118] shadow-[0_2px_0_0_#111118]";
             }
 
             return (
@@ -593,8 +578,8 @@ export default function AIMentorMindMapCanvas({
                 key={node.id}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className={`node-card absolute select-none flex flex-col p-3 rounded-xl border shadow-sm transition-shadow duration-150 hover:shadow-md cursor-pointer text-left w-[190px] h-[100px] justify-between ${cardStyle} ${
-                  isSelected ? "ring-2 ring-fuchsia-500 dark:ring-fuchsia-400 border-transparent shadow-lg" : ""
+                className={`node-card absolute select-none flex flex-col p-3 rounded-[16px] border transition-all duration-150 cursor-pointer text-left w-[190px] h-[100px] justify-between ${cardStyle} ${
+                  isSelected ? "border-[#2727e6] shadow-[0_4px_0_0_#111118] -translate-y-0.5" : "hover:border-[#2727e6]"
                 }`}
                 style={{ 
                   left: node.x - 95, 
@@ -606,7 +591,7 @@ export default function AIMentorMindMapCanvas({
                 }}
               >
                 <div className="flex items-start justify-between gap-1">
-                  <span className="font-semibold text-[11px] leading-tight truncate-two-lines w-[140px]" title={node.title}>
+                  <span className="font-normal text-[11px] leading-tight truncate-two-lines w-[140px] text-[#111118]" title={node.title}>
                     {node.title}
                   </span>
                   <div className="flex-shrink-0">
@@ -615,11 +600,11 @@ export default function AIMentorMindMapCanvas({
                 </div>
 
                 <div className="flex items-center justify-between mt-auto">
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${badgeStyle}`}>
+                  <span className={`text-[9px] px-2 py-0.5 rounded-full font-normal ${badgeStyle}`}>
                     {badgeLabel}
                   </span>
                   {node.type !== "goal" && node.type !== "pillar" && (
-                    <ChevronRight className="w-3 h-3 text-slate-400" />
+                    <ChevronRight className="w-3 h-3 text-[#111118]/40" />
                   )}
                 </div>
               </motion.div>
@@ -629,37 +614,37 @@ export default function AIMentorMindMapCanvas({
       </div>
 
       {/* CANVAS FLOATING ZOOM CONTROLS */}
-      <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-slate-200 shadow-md dark:bg-slate-900/90 dark:border-slate-800 pointer-events-auto">
+      <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-[#ffffff] px-3 py-1.5 rounded-full border border-[#e1edff] shadow-[0_2px_0_0_#111118] pointer-events-auto">
         <button 
           onClick={handleZoomIn} 
-          className="p-1 hover:bg-slate-100 rounded-full text-slate-600 dark:text-slate-300 dark:hover:bg-slate-800" 
+          className="p-1 hover:bg-[#f0f6ff] rounded-full text-[#111118] transition-all cursor-pointer" 
           title="Zoom +"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
-        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 w-8 text-center select-none">
+        <span className="text-xs font-normal text-[#111118] w-8 text-center select-none">
           {Math.round(zoom * 100)}%
         </span>
         <button 
           onClick={handleZoomOut} 
-          className="p-1 hover:bg-slate-100 rounded-full text-slate-600 dark:text-slate-300 dark:hover:bg-slate-800" 
+          className="p-1 hover:bg-[#f0f6ff] rounded-full text-[#111118] transition-all cursor-pointer" 
           title="Zoom -"
         >
           <ZoomOut className="w-4 h-4" />
         </button>
-        <div className="w-px h-4 bg-slate-200 dark:bg-slate-700 mx-0.5" />
+        <div className="w-px h-4 bg-[#e1edff] mx-0.5" />
         <button 
           onClick={handleZoomReset} 
-          className="p-1 hover:bg-slate-100 rounded-full text-slate-600 dark:text-slate-300 dark:hover:bg-slate-800" 
+          className="p-1 hover:bg-[#f0f6ff] rounded-full text-[#111118] transition-all cursor-pointer" 
           title="Recadrer la carte"
         >
           <Move className="w-3.5 h-3.5" />
         </button>
       </div>
 
-      <div className="absolute top-4 left-4 bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 shadow-sm backdrop-blur-sm pointer-events-none">
-        <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-        <span>NotebookLM Mindmap : Double-cliquez pour inspecter &amp; étendre à l'infini</span>
+      <div className="absolute top-4 left-4 bg-[#ffffff] border border-[#e1edff] text-[#111118] px-3 py-1.5 rounded-full text-[11px] font-normal flex items-center gap-1.5 shadow-[0_2px_0_0_#111118] pointer-events-none">
+        <Sparkles className="w-3.5 h-3.5 text-[#2727e6]" />
+        <span>Carte Mentale : Double-cliquez pour inspecter</span>
       </div>
 
       {/* DETAILED NODE DRAWER SLIDE-OUT PANEL */}
@@ -670,44 +655,46 @@ export default function AIMentorMindMapCanvas({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 320, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 220 }}
-            className="drawer-pane absolute top-0 right-0 w-[310px] h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl z-20 flex flex-col pointer-events-auto"
+            className="drawer-pane absolute top-0 right-0 w-[320px] h-full bg-[#ffffff] border-l border-[#e1edff] shadow-[0_0_30px_rgba(0,0,0,0.08)] z-20 flex flex-col pointer-events-auto font-sans"
           >
             {/* Drawer Header */}
-            <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between p-4 border-b border-[#e1edff]">
               <div className="flex items-center gap-1.5">
-                <Compass className="w-4 h-4 text-fuchsia-500" />
-                <span className="font-bold text-sm text-slate-900 dark:text-white">Détails du Nœud</span>
+                <div className="w-6 h-6 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6] flex items-center justify-center">
+                  <Compass className="w-3.5 h-3.5" />
+                </div>
+                <span className="font-normal text-xs text-[#111118]">Détails du Nœud</span>
               </div>
               <button 
                 onClick={() => setSelectedNodeId(null)} 
-                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full"
+                className="p-1 text-[#111118]/50 hover:text-[#111118] hover:bg-[#f0f6ff] rounded-full transition-all cursor-pointer"
               >
-                <X className="w-4.5 h-4.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Drawer Body */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <span className="text-[10px] font-normal uppercase tracking-wider text-[#111118]/60">
                   Concept
                 </span>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white mt-0.5 leading-snug">
+                <h3 className="font-normal text-sm text-[#111118] mt-0.5 leading-snug">
                   {selectedNode.title}
                 </h3>
                 {selectedNode.category && (
-                  <span className="inline-block text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full mt-2">
+                  <span className="inline-block text-[10px] font-normal bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6] px-2.5 py-0.5 rounded-full mt-2">
                     {selectedNode.category}
                   </span>
                 )}
               </div>
 
               {/* Node description */}
-              <div className="bg-slate-50 dark:bg-slate-950/40 p-3 rounded-xl border border-slate-100 dark:border-slate-800/60">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">
+              <div className="bg-[#f0f6ff] p-3 rounded-[16px] border border-[#e1edff]">
+                <span className="text-[10px] font-normal uppercase tracking-wider text-[#111118]/60 block mb-1">
                   Description &amp; Stratégie
                 </span>
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+                <p className="text-xs text-[#111118]/80 leading-relaxed text-justify">
                   {selectedNode.description}
                 </p>
               </div>
@@ -715,18 +702,18 @@ export default function AIMentorMindMapCanvas({
               {/* Status Manager for Courses */}
               {selectedNode.type === "course" && (
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
+                  <span className="text-[10px] font-normal uppercase tracking-wider text-[#111118]/60 block">
                     Statut du cours
                   </span>
-                  <div className="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+                  <div className="grid grid-cols-3 gap-1 bg-[#f0f6ff] p-1 rounded-full border border-[#e1edff]">
                     {["todo", "inprogress", "completed"].map((st) => (
                       <button
                         key={st}
                         onClick={() => onUpdateItemStatus("course", selectedNode.id, st)}
-                        className={`text-[10px] font-semibold py-1 rounded-md transition-all ${
+                        className={`text-[10px] font-normal py-1 rounded-full transition-all cursor-pointer ${
                           selectedNode.status === st
-                            ? "bg-white text-slate-900 shadow-sm dark:bg-slate-900 dark:text-white"
-                            : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                            ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]"
+                            : "text-[#111118]/70 hover:text-[#111118]"
                         }`}
                       >
                         {st === "todo" ? "À faire" : st === "inprogress" ? "En cours" : "Fait"}
@@ -742,32 +729,32 @@ export default function AIMentorMindMapCanvas({
                   <button
                     onClick={triggerAIExpansion}
                     disabled={isExpandingAI}
-                    className="w-full bg-gradient-to-r from-fuchsia-500 to-violet-600 hover:from-fuchsia-600 hover:to-violet-700 text-white font-bold text-xs py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                    className="w-full bg-[#2727e6] hover:scale-105 active:translate-y-0.5 text-white font-normal text-xs py-2.5 px-4 rounded-full shadow-[0_2px_0_0_#111118] transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     {isExpandingAI ? (
                       <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>Calcul de l'IA Scrivya...</span>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Calcul en cours...</span>
                       </>
                     ) : (
                       <>
-                        <Sparkles className="w-4 h-4 animate-pulse" />
-                        <span>Élargir ce Concept (IA)</span>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Élargir ce Concept</span>
                       </>
                     )}
                   </button>
-                  <p className="text-[9px] text-center text-slate-400 mt-1.5 italic">
-                    Génère instantanément des sous-concepts et des idées de recherche connectés.
+                  <p className="text-[10px] text-center text-[#111118]/50 mt-1.5">
+                    Génère des sous-concepts et des idées connectés.
                   </p>
                 </div>
               )}
 
               {/* Add Custom manual child concept */}
               {selectedNode.type !== "pillar" && (
-                <div className="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-2.5">
-                  <div className="flex items-center gap-1">
-                    <Plus className="w-3.5 h-3.5 text-fuchsia-500" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                <div className="border-t border-[#e1edff] pt-3 space-y-2.5">
+                  <div className="flex items-center gap-1.5">
+                    <Plus className="w-3.5 h-3.5 text-[#2727e6]" />
+                    <span className="text-[11px] font-normal uppercase tracking-wider text-[#111118]/70">
                       Ajouter un sous-concept
                     </span>
                   </div>
@@ -778,18 +765,18 @@ export default function AIMentorMindMapCanvas({
                       value={newSubNodeTitle}
                       onChange={e => setNewSubNodeTitle(e.target.value)}
                       required
-                      className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 focus:outline-none focus:ring-1 focus:ring-fuchsia-500 dark:text-white"
+                      className="w-full text-xs px-3 py-2 rounded-[14px] border border-[#e1edff] bg-[#f0f6ff] focus:border-[#2727e6] outline-none text-[#111118]"
                     />
                     <textarea
                       placeholder="Description abrégée..."
                       rows={2}
                       value={newSubNodeDesc}
                       onChange={e => setNewSubNodeDesc(e.target.value)}
-                      className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 focus:outline-none focus:ring-1 focus:ring-fuchsia-500 dark:text-white resize-none"
+                      className="w-full text-xs px-3 py-2 rounded-[14px] border border-[#e1edff] bg-[#f0f6ff] focus:border-[#2727e6] outline-none text-[#111118] resize-none"
                     />
                     <button
                       type="submit"
-                      className="w-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs py-1.5 rounded-lg transition-all"
+                      className="w-full border border-[#e1edff] hover:border-[#2727e6] bg-[#f0f6ff] text-[#111118] font-normal text-xs py-2 rounded-full shadow-[0_1px_0_0_#111118] transition-all cursor-pointer"
                     >
                       Associer au nœud actif
                     </button>
@@ -801,9 +788,9 @@ export default function AIMentorMindMapCanvas({
               {selectedNode.type !== "goal" && selectedNode.type !== "pillar" && (
                 <button
                   onClick={() => onChatAboutNode(selectedNode.title, selectedNode.type)}
-                  className="w-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs py-2 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5"
+                  className="w-full border border-[#e1edff] hover:border-[#2727e6] bg-[#ffffff] text-[#111118] font-normal text-xs py-2 px-3 rounded-full shadow-[0_1px_0_0_#111118] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <MessageSquare className="w-4 h-4 text-slate-500" />
+                  <MessageSquare className="w-3.5 h-3.5 text-[#2727e6]" />
                   <span>Poser une question au Mentor</span>
                 </button>
               )}
@@ -811,13 +798,13 @@ export default function AIMentorMindMapCanvas({
 
             {/* Footer containing delete controls for manually-created nodes */}
             {isCustomSelected && (
-              <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20">
+              <div className="p-4 border-t border-[#e1edff] bg-[#f0f6ff]">
                 <button
                   onClick={() => {
                     onDeleteCustomIdea(selectedNode.id);
                     setSelectedNodeId(null);
                   }}
-                  className="w-full bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/20 dark:hover:bg-rose-900/30 text-rose-600 dark:text-rose-400 font-bold text-xs py-2 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5"
+                  className="w-full bg-[#ffffff] border border-[#e1edff] hover:border-[#111118] text-[#111118] font-normal text-xs py-2 px-3 rounded-full shadow-[0_1px_0_0_#111118] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Supprimer cette idée</span>

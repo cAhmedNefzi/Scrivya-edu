@@ -286,7 +286,7 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
   };
 
   return (
-    <div className={`w-full min-h-screen ${isLight ? "bg-white text-slate-900" : "bg-slate-950 text-slate-100"} flex flex-col p-4 md:p-6 transition-all`}>
+    <div className="w-full min-h-screen bg-[#f0f6ff] text-[#111118] flex flex-col p-4 md:p-6 transition-all font-sans">
       {/* CUSTOM ANIMATION & PRINT STYLE OVERLAYS */}
       <style>{`
         @media print {
@@ -310,20 +310,29 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
 
       {/* 1. SETUP PANEL: SHOWN WHEN NO ROADMAP EXIST YET */}
       {!roadmap && (
-        <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto py-12 px-4 text-center">
-          <div className="mb-6 p-4 rounded-full bg-gradient-to-br from-fuchsia-500/10 to-violet-500/10 border border-fuchsia-500/20 shadow-md">
-            <Sparkles className="w-10 h-10 text-fuchsia-500 animate-pulse" />
+        <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto py-12 px-6 text-center font-sans">
+          <div className="mb-4 w-12 h-12 rounded-full bg-[#2727e6] text-white flex items-center justify-center mx-auto shadow-[0_2px_0_0_#111118]">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-600 bg-clip-text text-transparent">
-            Scrivya Mentorat-IA
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-3 py-1 rounded-full bg-[#2727e6] text-white text-[11px] font-normal shadow-[0_1px_0_0_#111118]">
+              Mentorat d'Excellence
+            </span>
+            <span className="px-3 py-1 rounded-full bg-[#ffffff] border border-[#e1edff] text-[#111118] text-[11px] font-normal shadow-[0_1px_0_0_#111118]">
+              Guidé par IA
+            </span>
+          </div>
+
+          <h1 className="text-2xl md:text-3xl font-normal tracking-tight text-[#111118] mb-2">
+            Scrivya Mentorat-IA & Cartographie
           </h1>
-          <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 max-w-xl mb-8 leading-relaxed">
-            Établissez un plan d'excellence académique et une carte mentale interactive gérée par IA. Configurez votre objectif et élargissez vos idées de recherche sans aucune limite.
+          <p className="text-xs md:text-sm text-[#111118]/70 max-w-lg mb-6 leading-relaxed">
+            Établissez un plan d'excellence académique et une carte mentale interactive gérée par IA. Définissez votre objectif de recherche ou de carrière.
           </p>
 
           {/* Prompt Goal Input */}
-          <div className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-xl flex flex-col md:flex-row gap-2 mb-8 items-stretch md:items-center">
+          <div className="w-full bg-[#ffffff] border border-[#e1edff] p-3 rounded-[20px] shadow-[0_2px_0_0_#111118] flex flex-col md:flex-row gap-2 mb-6 items-stretch md:items-center">
             <input
               type="text"
               placeholder="Ex: Devenir Chercheur d'élite en IA / NLP appliquée à l'Énergie..."
@@ -331,32 +340,25 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
               onChange={(e) => setGoalInput(e.target.value)}
               disabled={isGenerating}
               onKeyDown={(e) => { if (e.key === 'Enter') generateRoadmap(goalInput); }}
-              className="flex-grow bg-slate-50 dark:bg-slate-950 px-4 py-3 rounded-xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 dark:text-white text-sm"
+              className="flex-grow bg-[#f0f6ff] text-[#111118] px-4 py-2.5 rounded-[14px] border border-[#e1edff] focus:border-[#2727e6] outline-none text-xs transition-all"
             />
             <button
               onClick={() => generateRoadmap(goalInput)}
               disabled={isGenerating || !goalInput.trim()}
-              className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#2727e6] text-white text-xs font-normal shadow-[0_4px_0_0_#111118] hover:scale-105 active:translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
             >
-              {isGenerating ? (
-                <>
-                  <RotateCcw className="w-4 h-4 animate-spin" />
-                  <span>Conception...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  <span>Tracer la Roadmap</span>
-                </>
-              )}
+              {isGenerating ? <RotateCcw className="w-3.5 h-3.5 animate-spin text-white" /> : <Sparkles className="w-3.5 h-3.5 text-white" />}
+              <span>{isGenerating ? "Conception en cours..." : "Tracer la Roadmap"}</span>
             </button>
           </div>
 
           {/* Goal presets suggestions */}
           <div className="text-left w-full">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 text-center">
-              Parcours d'Excellence Recommandés
-            </h4>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[11px] font-normal uppercase tracking-wider text-[#111118]/60">
+                Parcours d'Excellence Recommandés
+              </span>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {suggestions.map((s, idx) => (
                 <button
@@ -366,16 +368,16 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                     generateRoadmap(s.fr);
                   }}
                   disabled={isGenerating}
-                  className="flex items-start text-left p-3.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-white/40 dark:bg-slate-900/40 hover:bg-fuchsia-500/5 hover:border-fuchsia-500/20 transition-all group cursor-pointer"
+                  className="flex items-start text-left p-3.5 rounded-[16px] border border-[#e1edff] bg-[#ffffff] hover:border-[#2727e6] hover:-translate-y-0.5 transition-all group cursor-pointer shadow-[0_2px_0_0_#111118]"
                 >
-                  <div className="mr-3 mt-1 text-fuchsia-500">
+                  <div className="mr-3 mt-0.5 w-8 h-8 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6] flex items-center justify-center shrink-0">
                     <GraduationCap className="w-4 h-4" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-fuchsia-500 transition-colors">
+                    <h5 className="text-xs font-normal text-[#111118] group-hover:text-[#2727e6] transition-colors">
                       {s.label}
                     </h5>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 leading-snug">
+                    <p className="text-[11px] text-[#111118]/60 mt-0.5 leading-snug">
                       {s.fr}
                     </p>
                   </div>
@@ -388,27 +390,28 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
 
       {/* 2. MAIN ACTIVE WORKSPACE PANEL: SHOWN ONCE ROADMAP IS GENERATED */}
       {roadmap && (
-        <div className="flex-1 flex flex-col gap-4 print:hidden">
+        <div className="flex-1 flex flex-col gap-3 print:hidden font-sans">
           {/* HEADER ROW */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 p-4 rounded-xl shadow-sm">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-[#ffffff] border border-[#e1edff] p-3 rounded-[20px] shadow-[0_2px_0_0_#111118]">
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={onBackToEditor}
-                className="p-2 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg transition-all"
-                title="Retour à l'Éditeur Scrivya"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#e1edff] bg-[#f0f6ff] text-[#111118] text-xs font-normal shadow-[0_1px_0_0_#111118] hover:border-[#2727e6] transition-all cursor-pointer"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-3.5 h-3.5 text-[#2727e6]" />
+                <span>Retour</span>
               </button>
+              <div className="h-4 w-px bg-[#e1edff]"></div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-bold bg-fuchsia-500 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-[#2727e6] text-white text-[10px] font-normal shadow-[0_1px_0_0_#111118]">
                     Mentorat-IA
                   </span>
-                  <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="px-2 py-0.5 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#111118] text-[10px] font-normal">
                     Orientation d'élite
                   </span>
                 </div>
-                <h2 className="font-bold text-base text-slate-800 dark:text-slate-100 mt-1 flex items-center gap-1.5">
+                <h2 className="font-normal text-sm text-[#111118] mt-0.5 flex items-center gap-1.5 truncate max-w-xl">
                   {roadmap.goal}
                 </h2>
               </div>
@@ -416,13 +419,13 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
 
             {/* SWITCH WORKSPACE VIEWS & EXPORT UTILITIES */}
             <div className="flex flex-wrap items-center gap-2">
-              <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+              <div className="flex bg-[#f0f6ff] p-1 rounded-full border border-[#e1edff]">
                 <button
                   onClick={() => setViewMode("mindmap")}
-                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                  className={`text-xs font-normal px-3 py-1 rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
                     viewMode === "mindmap"
-                      ? "bg-white text-slate-900 shadow-sm dark:bg-slate-900 dark:text-white"
-                      : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                      ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]"
+                      : "text-[#111118]/70 hover:text-[#111118]"
                   }`}
                 >
                   <Compass className="w-3.5 h-3.5" />
@@ -430,10 +433,10 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                  className={`text-xs font-normal px-3 py-1 rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
                     viewMode === "list"
-                      ? "bg-white text-slate-900 shadow-sm dark:bg-slate-900 dark:text-white"
-                      : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                      ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]"
+                      : "text-[#111118]/70 hover:text-[#111118]"
                   }`}
                 >
                   <FolderKanban className="w-3.5 h-3.5" />
@@ -444,11 +447,10 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
               {/* PDF EXPORT TRIGGER */}
               <button
                 onClick={handlePrintPDF}
-                className="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold text-xs py-2 px-3 rounded-xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
-                title="Générer un rapport PDF académique et formel"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#2727e6] text-white text-xs font-normal shadow-[0_2px_0_0_#111118] hover:scale-105 transition-all cursor-pointer"
               >
-                <FileDown className="w-4 h-4" />
-                <span>Exporter la Roadmap (PDF)</span>
+                <FileDown className="w-3.5 h-3.5 text-white" />
+                <span>Exporter (PDF)</span>
               </button>
             </div>
           </div>
@@ -470,22 +472,22 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                 />
               ) : (
                 /* STANDARD TABULAR LIST VIEW */
-                <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-4 md:p-5 flex flex-col flex-grow">
+                <div className="bg-[#ffffff] border border-[#e1edff] rounded-[20px] shadow-[0_2px_0_0_#111118] p-4 md:p-5 flex flex-col flex-grow">
                   {/* Dashboard Tabs switcher */}
-                  <div className="flex border-b border-slate-100 dark:border-slate-800 pb-3 gap-1.5 overflow-x-auto">
+                  <div className="flex border-b border-[#e1edff] pb-3 gap-2 overflow-x-auto">
                     {[
-                      { id: "courses", label: "📚 Cursus & Cours", icon: <GraduationCap className="w-4 h-4" /> },
-                      { id: "internships", label: "💼 Stages & Projets", icon: <Briefcase className="w-4 h-4" /> },
-                      { id: "skills", label: "🎯 Compétences", icon: <Award className="w-4 h-4" /> },
-                      { id: "career", label: "🚀 Progression Pro", icon: <TrendingUp className="w-4 h-4" /> }
+                      { id: "courses", label: "Cursus & Cours", icon: <GraduationCap className="w-4 h-4" /> },
+                      { id: "internships", label: "Stages & Projets", icon: <Briefcase className="w-4 h-4" /> },
+                      { id: "skills", label: "Compétences", icon: <Award className="w-4 h-4" /> },
+                      { id: "career", label: "Progression Pro", icon: <TrendingUp className="w-4 h-4" /> }
                     ].map(tab => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as any)}
-                        className={`text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap ${
+                        className={`text-xs font-normal py-1.5 px-3.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
                           activeTab === tab.id
-                            ? "bg-fuchsia-500 text-white shadow-sm"
-                            : "bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
+                            ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]"
+                            : "bg-[#f0f6ff] text-[#111118] border border-[#e1edff] hover:border-[#2727e6]"
                         }`}
                       >
                         {tab.icon}
@@ -499,28 +501,28 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                     {activeTab === "courses" && (
                       <div className="space-y-3">
                         {roadmap.courses.map((course) => (
-                          <div key={course.id} className="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl">
+                          <div key={course.id} className="p-3.5 bg-[#f0f6ff] border border-[#e1edff] rounded-[16px]">
                             <div className="flex items-start justify-between">
                               <div>
-                                <span className="text-[10px] font-bold text-fuchsia-500">{course.code}</span>
-                                <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100">{course.name}</h4>
+                                <span className="text-[10px] font-normal text-[#2727e6]">{course.code}</span>
+                                <h4 className="font-normal text-sm text-[#111118]">{course.name}</h4>
                               </div>
                               <select
                                 value={course.status}
                                 onChange={(e) => handleUpdateItemStatus("course", course.id, e.target.value)}
-                                className="text-xs bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded px-2 py-1 focus:outline-none dark:text-white"
+                                className="text-xs bg-[#ffffff] text-[#111118] border border-[#e1edff] rounded-full px-2.5 py-1 focus:border-[#2727e6] outline-none"
                               >
                                 <option value="todo">À faire</option>
                                 <option value="inprogress">En cours</option>
                                 <option value="completed">Terminé</option>
                               </select>
                             </div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 text-justify leading-relaxed">
+                            <p className="text-xs text-[#111118]/70 mt-1.5 text-justify leading-relaxed">
                               {course.description}
                             </p>
                             <div className="flex flex-wrap gap-1 mt-2.5">
                               {course.skillsAcquired.map((skill, idx) => (
-                                <span key={idx} className="text-[9px] font-semibold bg-fuchsia-50 dark:bg-fuchsia-950/20 text-fuchsia-600 dark:text-fuchsia-400 px-2 py-0.5 rounded-full">
+                                <span key={idx} className="text-[10px] font-normal bg-[#ffffff] border border-[#e1edff] text-[#2727e6] px-2.5 py-0.5 rounded-full">
                                   {skill}
                                 </span>
                               ))}
@@ -533,24 +535,24 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                     {activeTab === "internships" && (
                       <div className="space-y-3">
                         {roadmap.internships.map((intern) => (
-                          <div key={intern.id} className="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl space-y-2">
-                            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100">{intern.title}</h4>
+                          <div key={intern.id} className="p-3.5 bg-[#f0f6ff] border border-[#e1edff] rounded-[16px] space-y-2">
+                            <h4 className="font-normal text-sm text-[#111118]">{intern.title}</h4>
                             <div className="flex flex-wrap gap-1.5">
                               {intern.companyTypes.map((type, idx) => (
-                                <span key={idx} className="text-[10px] font-bold bg-sky-50 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 px-2 py-0.5 rounded-full">
+                                <span key={idx} className="text-[10px] font-normal bg-[#ffffff] border border-[#e1edff] text-[#2727e6] px-2.5 py-0.5 rounded-full">
                                   {type}
                                 </span>
                               ))}
                             </div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+                            <div className="text-xs text-[#111118]/70 space-y-1">
                               <p><strong>Timeline recommandée :</strong> {intern.timeline}</p>
-                              <p className="text-justify leading-relaxed"><strong>Stratégie de candidature d'élite :</strong> {intern.strategy}</p>
+                              <p className="text-justify leading-relaxed"><strong>Stratégie de candidature :</strong> {intern.strategy}</p>
                             </div>
-                            <div className="border-t border-slate-100 dark:border-slate-800/60 pt-2">
-                              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wide block mb-1">
+                            <div className="border-t border-[#e1edff] pt-2">
+                              <span className="text-[10px] font-normal text-[#111118]/60 uppercase tracking-wide block mb-1">
                                 Idées de Projets Académiques &amp; Techniques :
                               </span>
-                              <ul className="list-disc list-inside text-xs text-slate-600 dark:text-slate-300 space-y-0.5 pl-1">
+                              <ul className="list-disc list-inside text-xs text-[#111118]/80 space-y-0.5 pl-1">
                                 {intern.recommendedProjects.map((p, idx) => (
                                   <li key={idx} className="text-justify">{p}</li>
                                 ))}
@@ -564,18 +566,18 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                     {activeTab === "skills" && (
                       <div className="space-y-3">
                         {roadmap.skills.map((skill) => (
-                          <div key={skill.id} className="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl">
+                          <div key={skill.id} className="p-3.5 bg-[#f0f6ff] border border-[#e1edff] rounded-[16px]">
                             <div className="flex items-center justify-between mb-1.5">
                               <div>
-                                <span className="text-[10px] font-bold uppercase text-emerald-500">{skill.category}</span>
-                                <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100">{skill.name}</h4>
+                                <span className="text-[10px] font-normal uppercase text-[#2727e6]">{skill.category}</span>
+                                <h4 className="font-normal text-sm text-[#111118]">{skill.name}</h4>
                               </div>
-                              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{skill.level}%</span>
+                              <span className="text-xs font-normal text-[#111118]">{skill.level}%</span>
                             </div>
-                            <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                              <div className="bg-emerald-500 h-full transition-all duration-300" style={{ width: `${skill.level}%` }} />
+                            <div className="w-full bg-[#ffffff] border border-[#e1edff] h-2 rounded-full overflow-hidden">
+                              <div className="bg-[#2727e6] h-full transition-all duration-300" style={{ width: `${skill.level}%` }} />
                             </div>
-                            <div className="mt-2 text-xs text-slate-600 dark:text-slate-400">
+                            <div className="mt-2 text-xs text-[#111118]/70">
                               <strong>Ressources d'excellence :</strong> {skill.resources.join(", ")}
                             </div>
                           </div>
@@ -586,24 +588,24 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                     {activeTab === "career" && (
                       <div className="space-y-3">
                         {roadmap.careerPath.map((step, idx) => (
-                          <div key={step.id} className="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl space-y-1.5">
+                          <div key={step.id} className="p-3.5 bg-[#f0f6ff] border border-[#e1edff] rounded-[16px] space-y-1.5">
                             <div className="flex items-center justify-between">
-                              <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100">
+                              <h4 className="font-normal text-sm text-[#111118]">
                                 {idx + 1}. {step.title}
                               </h4>
-                              <span className="text-xs font-semibold bg-violet-100 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 px-2 py-0.5 rounded-full">
+                              <span className="text-xs font-normal bg-[#ffffff] border border-[#e1edff] text-[#2727e6] px-2.5 py-0.5 rounded-full">
                                 {step.timeframe}
                               </span>
                             </div>
                             {step.salaryRange && (
-                              <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                              <p className="text-xs text-[#111118]/60 font-normal">
                                 Rémunération indicative : {step.salaryRange}
                               </p>
                             )}
-                            <div className="text-xs text-slate-600 dark:text-slate-300 text-justify">
+                            <div className="text-xs text-[#111118]/70 text-justify">
                               <strong>Responsabilités clés :</strong> {step.responsibilities.join(", ")}
                             </div>
-                            <p className="text-xs text-amber-600 dark:text-amber-400 leading-snug">
+                            <p className="text-xs text-[#2727e6] leading-snug">
                               <strong>Jalon de réussite critique :</strong> {step.criticalMilestone}
                             </p>
                           </div>
@@ -616,15 +618,17 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
             </div>
 
             {/* COLUMN B: MENTOR DIALOGUE SIDEBAR (3/10 WIDTH) */}
-            <div className="lg:col-span-3 bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col h-[500px] lg:h-auto">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 mb-3">
+            <div className="lg:col-span-3 bg-[#ffffff] border border-[#e1edff] rounded-[20px] shadow-[0_2px_0_0_#111118] p-4 flex flex-col h-[500px] lg:h-auto">
+              <div className="flex items-center justify-between border-b border-[#e1edff] pb-2 mb-3">
                 <div className="flex items-center gap-1.5">
-                  <MessageSquare className="w-4 h-4 text-fuchsia-500" />
-                  <span className="font-bold text-sm text-slate-900 dark:text-white">Mentor d'Élite</span>
+                  <div className="w-6 h-6 rounded-full bg-[#f0f6ff] border border-[#e1edff] text-[#2727e6] flex items-center justify-center">
+                    <MessageSquare className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="font-normal text-xs text-[#111118]">Mentor d'Élite</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">Conseils</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#2727e6]" />
+                  <span className="text-[10px] text-[#111118]/60 font-normal">Conseils</span>
                 </div>
               </div>
 
@@ -632,10 +636,10 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
               <div className="flex-grow overflow-y-auto space-y-3 pr-1 text-xs select-text">
                 {chatMessages.map((msg, idx) => (
                   <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className={`p-2.5 rounded-xl max-w-[85%] leading-relaxed text-justify shadow-sm border ${
+                    <div className={`p-3 rounded-[16px] max-w-[85%] leading-relaxed text-justify text-xs ${
                       msg.sender === "user"
-                        ? "bg-fuchsia-500 text-white border-transparent"
-                        : "bg-slate-50 dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200"
+                        ? "bg-[#2727e6] text-white shadow-[0_1px_0_0_#111118]"
+                        : "bg-[#f0f6ff] border border-[#e1edff] text-[#111118]"
                     }`}>
                       {msg.text}
                     </div>
@@ -643,8 +647,8 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                 ))}
                 {isSendingChat && (
                   <div className="flex justify-start">
-                    <div className="p-2 bg-slate-50 dark:bg-slate-900 rounded-xl flex items-center gap-1 text-slate-400">
-                      <RotateCcw className="w-3.5 h-3.5 animate-spin" />
+                    <div className="p-2.5 bg-[#f0f6ff] border border-[#e1edff] rounded-[16px] flex items-center gap-1.5 text-xs text-[#111118]/60">
+                      <RotateCcw className="w-3.5 h-3.5 animate-spin text-[#2727e6]" />
                       <span>Analyse en cours...</span>
                     </div>
                   </div>
@@ -652,7 +656,7 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
               </div>
 
               {/* Chat Send Input Form */}
-              <div className="mt-3 flex gap-1 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="mt-3 flex gap-2 pt-2 border-t border-[#e1edff]">
                 <input
                   type="text"
                   placeholder="Posez une question à Scrivya..."
@@ -660,12 +664,12 @@ export default function AIMentorMap({ onBackToEditor, isLight }: AIMentorMapProp
                   onChange={(e) => setChatInput(e.target.value)}
                   disabled={isSendingChat}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleSendChat(); }}
-                  className="flex-grow bg-slate-50 dark:bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800 text-xs focus:outline-none dark:text-white"
+                  className="flex-grow bg-[#f0f6ff] px-3.5 py-2 rounded-full border border-[#e1edff] text-xs text-[#111118] focus:border-[#2727e6] outline-none"
                 />
                 <button
                   onClick={handleSendChat}
                   disabled={isSendingChat || !chatInput.trim()}
-                  className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white p-2 rounded-lg transition-all"
+                  className="bg-[#2727e6] hover:scale-105 active:translate-y-0.5 text-white p-2 rounded-full shadow-[0_2px_0_0_#111118] transition-all cursor-pointer disabled:opacity-50"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>

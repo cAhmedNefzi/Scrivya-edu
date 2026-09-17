@@ -12,7 +12,7 @@ export interface UserProfile {
 
 export default function App() {
   const [lang, setLang] = useState<"fr" | "en" | "ar">("fr");
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
   if (currentUser) {
@@ -31,6 +31,8 @@ export default function App() {
     <MinimalistLandingPage
       lang={lang}
       setLang={setLang}
+      theme={theme}
+      setTheme={setTheme}
       onOpenWorkspace={(user) => {
         setCurrentUser(
           user || {

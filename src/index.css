@@ -1,191 +1,334 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=Martian+Mono:wght@400&family=Space+Grotesk:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* SuperHi Design System Official Color Tokens */
+  --color-electric-iris: #2727e6;
+  --color-ink-black: #111118;
+  --color-paper-white: #ffffff;
+  --color-chalk-blue: #f0f6ff;
+  --color-frost-blue: #e1edff;
+  --color-carbon: #000000;
+  --color-marker-red: #ff4141;
+  --color-hi-yellow: #ffda00;
+  --color-powder-sky: #91d8ec;
+  --color-bubblegum-pink: #ffbac4;
+  --color-jelly-green: #16ab59;
+  --color-sunbeam: #ffe54d;
+
+  /* Typography Families */
+  --font-haas-grot-disp: 'Manrope', 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-haas-grot-text: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-martian-mono: 'Martian Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-serif: "Times New Roman", Times, Georgia, serif;
-  --font-display: "Space Grotesk", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand-50: #f0f7ff;
-  --color-brand-100: #e0f0fe;
-  --color-brand-500: #0284c7;
-  --color-brand-600: #0369a1;
-  --color-brand-700: #075985;
+  /* Typography Scale */
+  --text-caption-mono: 12px;
+  --leading-caption-mono: 1.35;
+  --tracking-caption-mono: -0.156px;
+  --text-body-sm: 16px;
+  --leading-body-sm: 1.4;
+  --tracking-body-sm: -0.32px;
+  --text-body: 20px;
+  --leading-body: 1.4;
+  --tracking-body: -0.2px;
+  --text-subheading: 22px;
+  --leading-subheading: 1.35;
+  --tracking-subheading: -0.176px;
+  --text-heading-sm: 24px;
+  --leading-heading-sm: 1.25;
+  --tracking-heading-sm: -0.168px;
+  --text-heading-lg: 42px;
+  --leading-heading-lg: 1.1;
+  --tracking-heading-lg: -0.378px;
+  --text-display: 52px;
+  --leading-display: 1.1;
+  --tracking-display: -0.468px;
+  --text-display-lg: 62px;
+  --leading-display-lg: 1.05;
+  --tracking-display-lg: -0.558px;
+  --text-display-xl: 72px;
+  --leading-display-xl: 1;
+  --tracking-display-xl: -0.648px;
+  --text-mega: 92px;
+  --leading-mega: 1;
+  --tracking-mega: -2.76px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+
+  /* Border Radius */
+  --radius-lg: 8px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-3xl-2: 32px;
+  --radius-full: 48px;
+  --radius-full-2: 500px;
+  --radius-full-3: 800px;
+  --radius-full-4: 5000px;
 }
 
-/* Custom background mesh with dynamic moving blurry blobs */
-.mesh-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-  background-color: #020617;
-  overflow: hidden;
-  transition: background-color 0.5s ease;
+:root {
+  /* Colors */
+  --color-electric-iris: #2727e6;
+  --color-ink-black: #111118;
+  --color-paper-white: #ffffff;
+  --color-chalk-blue: #f0f6ff;
+  --color-frost-blue: #e1edff;
+  --color-carbon: #000000;
+  --color-marker-red: #ff4141;
+  --color-hi-yellow: #ffda00;
+  --color-powder-sky: #91d8ec;
+  --color-bubblegum-pink: #ffbac4;
+  --color-jelly-green: #16ab59;
+  --color-sunbeam: #ffe54d;
+
+  /* Surfaces */
+  --surface-chalk-blue-canvas: #f0f6ff;
+  --surface-paper-white-card: #ffffff;
+  --surface-frost-blue-wash: #e1edff;
+  --surface-bubblegum-section: #ffbac4;
+  --surface-hi-yellow-section: #ffda00;
+
+  /* Typography Font Families */
+  --font-haas-grot-disp: 'Manrope', 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-haas-grot-text: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-martian-mono: 'Martian Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Base style for slow moving animated blurry blobs */
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(75px);
-  pointer-events: none;
+/* Background & Body Default: Chalk Blue canvas, Ink Black text, 400 weight */
+body {
+  background-color: #f0f6ff;
+  color: #111118;
+  font-family: var(--font-haas-grot-text);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================================
+   SUPERHI BUTTON COMPONENTS
+   All buttons use weight 400, 48px pill radius, hard offset shadows
+   ============================================================================ */
+
+/* Primary Pill Button (Electric Iris #2727e6 with hard offset shadow 0 4px 0 0 #111118) */
+.superhi-btn-primary {
+  background-color: #2727e6;
+  color: #ffffff;
+  font-family: var(--font-haas-grot-text);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  border-radius: 48px;
+  padding: 12px 24px;
+  box-shadow: 0 4px 0 0 #111118;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.superhi-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 #111118;
+}
+
+.superhi-btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 #111118;
+}
+
+/* Secondary Dark Pill Button (#000000 with hard offset shadow 0 4px 0 0 #2727e6) */
+.superhi-btn-dark {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--font-haas-grot-text);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.25;
+  border-radius: 48px;
+  padding: 12px 24px;
+  box-shadow: 0 4px 0 0 #2727e6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.superhi-btn-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 #2727e6;
+}
+
+.superhi-btn-dark:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 #2727e6;
+}
+
+/* Ghost Text Button (No fill, no border, text #111118, underline on hover) */
+.superhi-btn-ghost {
+  background: transparent;
+  color: #111118;
+  font-family: var(--font-haas-grot-text);
+  font-weight: 400;
+  font-size: 17px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.superhi-btn-ghost:hover {
+  text-decoration: underline;
+}
+
+/* Compact Small Pill Button variant */
+.superhi-btn-compact {
+  padding: 8px 18px;
+  font-size: 15px;
+  border-radius: 48px;
+}
+
+/* ============================================================================
+   SUPERHI CARD CONTAINER
+   #ffffff surface, 24px radius, 1px #e1edff border, 24px padding, 0 2px 0 0 #111118 shadow
+   ============================================================================ */
+.superhi-card {
+  background-color: #ffffff;
+  border: 1px solid #e1edff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 2px 0 0 #111118;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.superhi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 0 #111118;
+}
+
+/* ============================================================================
+   SUPERHI INPUT FIELD
+   Fill #f0f6ff, border 1px #e1edff, 5000px radius, padding 12px 20px, ring on focus
+   ============================================================================ */
+.superhi-input {
+  background-color: #f0f6ff;
+  border: 1px solid #e1edff;
+  border-radius: 5000px;
+  padding: 12px 20px;
+  font-family: var(--font-haas-grot-text);
+  font-size: 16px;
+  font-weight: 400;
+  color: #111118;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.superhi-input::placeholder {
+  color: rgba(17, 17, 24, 0.4);
+}
+
+.superhi-input:focus {
+  border-color: #2727e6;
+  box-shadow: 0 0 0 2px #2727e6;
+}
+
+/* ============================================================================
+   SUPERHI TAG / CATEGORY PILL
+   5000px radius, fill #e1edff, text #111118, padding 4px 12px
+   ============================================================================ */
+.superhi-tag {
+  border-radius: 5000px;
+  background-color: #e1edff;
+  color: #111118;
+  font-family: var(--font-haas-grot-text);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.25;
+}
+
+.superhi-tag-active {
+  background-color: #2727e6;
+  color: #ffffff;
+}
+
+/* ============================================================================
+   SUPERHI ROUND ICON CONTAINER (48px circle, #2727e6, centered glyph #ffffff)
+   ============================================================================ */
+.superhi-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 5000px;
+  background-color: #2727e6;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================================
+   PROMOTIONAL TICKER MASK GRADIENT
+   Fades on the left edge via linear-gradient to suggest infinite marquee
+   ============================================================================ */
+.superhi-ticker-fade {
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* ============================================================================
+   ROTATING SHAPES KEYFRAMES (SLOW & SMOOTH ROTATION)
+   ============================================================================ */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 50s linear infinite;
+  transform-origin: center center;
   will-change: transform;
 }
 
-/* Hardware-accelerated sliding fluid movement animations */
-@keyframes float-blob-1 {
-  0% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
-  33% { transform: translate(15%, 12%) rotate(120deg) scale(1.15); }
-  66% { transform: translate(-10%, 25%) rotate(240deg) scale(0.85); }
-  100% { transform: translate(0px, 0px) rotate(360deg) scale(1); }
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 60s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
 }
 
-@keyframes float-blob-2 {
-  0% { transform: translate(0px, 0px) rotate(360deg) scale(1.05); }
-  50% { transform: translate(-15%, -18%) rotate(180deg) scale(0.9); }
-  100% { transform: translate(0px, 0px) rotate(0deg) scale(1.05); }
-}
-
-@keyframes float-blob-3 {
-  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.95); }
-  40% { transform: translate(18%, -12%) rotate(140deg) scale(1.2); }
-  80% { transform: translate(-8%, 10%) rotate(280deg) scale(1.05); }
-  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.95); }
-}
-
-@keyframes float-blob-4 {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(-12%, 18%) scale(1.1); }
-  100% { transform: translate(0px, 0px) scale(1); }
-}
-
-.blob-1 {
-  top: -5%;
-  left: 5%;
-  width: 650px;
-  max-width: 90vw;
-  height: 650px;
-  max-height: 90vw;
-  background-color: rgba(37, 99, 235, 0.45); /* Vivid Royal Blue */
-  animation: float-blob-1 18s infinite ease-in-out;
-}
-
-.blob-2 {
-  bottom: 0%;
-  right: 5%;
-  width: 750px;
-  max-width: 95vw;
-  height: 750px;
-  max-height: 95vw;
-  background-color: rgba(29, 78, 216, 0.40); /* Beautiful Sapphire Blue */
-  animation: float-blob-2 22s infinite ease-in-out;
-}
-
-.blob-3 {
-  top: 35%;
-  left: 25%;
-  width: 600px;
-  max-width: 85vw;
-  height: 600px;
-  max-height: 85vw;
-  background-color: rgba(14, 165, 233, 0.38); /* Bright Sky Blue */
-  animation: float-blob-3 19s infinite ease-in-out;
-}
-
-.blob-4 {
-  bottom: 25%;
-  left: -5%;
-  width: 500px;
-  max-width: 75vw;
-  height: 500px;
-  max-height: 75vw;
-  background-color: rgba(3, 105, 161, 0.40); /* Vivid Deep Sky Blue */
-  animation: float-blob-4 24s infinite ease-in-out;
-}
-
-/* Bright vibrant blue hues customized for light mode */
-.theme-light .blob-1 {
-  background-color: rgba(14, 165, 233, 0.22) !important; /* Rich Sky Blue */
-}
-.theme-light .blob-2 {
-  background-color: rgba(59, 130, 246, 0.20) !important; /* Royal Blue */
-}
-.theme-light .blob-3 {
-  background-color: rgba(6, 182, 212, 0.20) !important; /* Cyan */
-}
-.theme-light .blob-4 {
-  background-color: rgba(37, 99, 235, 0.20) !important; /* Azure Blue */
-}
-
-/* Glass panel */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-/* Premium blue glass button */
-.btn-glass-primary {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
-}
-
-.btn-glass-primary:hover {
-  background: linear-gradient(135deg, #4f46e5, #3b82f6);
-  box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.6);
-  transform: translateY(-1px);
-}
-
-/* Subtle fade in keyframes for React tabs */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.35s ease-out forwards;
-}
-
-/* Elegant solid color pulse animation instead of gradient */
-@keyframes solidColorPulse {
-  0%, 100% {
-    color: #3b82f6; /* Solid royal blue */
-    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-  }
-  50% {
-    color: #60a5fa; /* Solid light blue */
-    text-shadow: 0 0 25px rgba(96, 165, 250, 0.85);
-  }
-}
-
-.animate-solidColorPulse {
-  display: inline-block;
-  animation: solidColorPulse 3.5s infinite ease-in-out;
-}
-
-/* ==========================================
-   Light Mode Theme Overrides
-   ========================================== */
-.theme-light {
-  background-color: transparent;
-  color: #0f172a;
-}
-
-.theme-light .mesh-bg {
-  background-color: #f8fafc;
-}
-
-/* ==========================================
-   Document White Page Default Font Style & Spacing Overrides
-   ========================================== */
+/* Document White Page Default Font Style & Spacing */
 .academic-document-page,
 .academic-document-page *,
 .academic-document-page p,
@@ -204,7 +347,6 @@
   font-family: "Times New Roman", Times, Georgia, serif;
 }
 
-/* Default 1.5 line spacing (interligne 1.5) and dynamic font sizing for main text in white pages */
 .academic-document-page p,
 .academic-document-page div[contenteditable="true"],
 .academic-document-page p *,
@@ -218,7 +360,6 @@
   margin-bottom: 8px !important;
 }
 
-/* Force main document text to inherit --document-font-size (16px default / 16px customizable) */
 .academic-document-page div[contenteditable="true"],
 .academic-document-page div[contenteditable="true"] p,
 .academic-document-page div[contenteditable="true"] p *,
@@ -227,7 +368,6 @@
   font-size: var(--document-font-size, 16px) !important;
 }
 
-/* Default single 1.0 line spacing and static 10px font size for footnotes */
 .academic-document-container .academic-footnotes-container,
 .academic-document-page .academic-footnotes-container,
 .academic-document-page .academic-footnotes-container *,
@@ -238,7 +378,6 @@
   line-height: 1.0 !important;
 }
 
-/* Force footnote numbers never wrap, sit on a new line, or bloat, keeping a perfect compact superscript size with Times New Roman default */
 .footnote-link, .footnote-anchor, [data-footnote-id], [data-id^="fn-id-"] {
   display: inline !important;
   white-space: nowrap !important;
@@ -254,5 +393,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-
